@@ -146,7 +146,7 @@
                 $media_options = get_option('daher_media_options', []);
                 $logo_principal = !empty($media_options['logo_principal']) 
                     ? esc_url($media_options['logo_principal']) 
-                    : get_template_directory_uri() . '/assets/images/logo.svg';
+                    : get_template_directory_uri() . '/assets/images/logo.png';
                 ?>
                 <img src="<?php echo $logo_principal; ?>" alt="Daher Clínica" class="logo-img" width="120" height="135">
                 <span class="logo-text">Daher <span class="accent">Clínica</span></span>

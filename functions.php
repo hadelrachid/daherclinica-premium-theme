@@ -2,7 +2,7 @@
 // functions.php - Apenas carrega os módulos essenciais
 if (!defined('ABSPATH')) exit;
 
-define('DAHER_THEME_VERSION', '2.6.7');
+define('DAHER_THEME_VERSION', '2.6.8');
 define('DAHER_THEME_DIR', get_template_directory());
 define('DAHER_THEME_URI', get_template_directory_uri());
 
@@ -97,7 +97,7 @@ function daherclinica_add_schema_markup() {
         
         $logo_principal = !empty($media_options['logo_principal']) 
             ? $media_options['logo_principal'] 
-            : get_template_directory_uri() . '/assets/images/logo.svg';
+            : get_template_directory_uri() . '/assets/images/logo.png';
 
         $schema = [
             "@context" => "https://schema.org",
@@ -191,7 +191,7 @@ function daherclinica_add_schema_markup() {
                 "name" => "Daher Clínica",
                 "logo" => [
                     "@type" => "ImageObject",
-                    "url" => !empty($media_options['logo_principal']) ? $media_options['logo_principal'] : get_template_directory_uri() . '/assets/images/logo.svg'
+                    "url" => !empty($media_options['logo_principal']) ? $media_options['logo_principal'] : get_template_directory_uri() . '/assets/images/logo.png'
                 ]
             ],
             "mainEntityOfPage" => [

@@ -128,7 +128,7 @@ body {
     font-family: var(--font-body);
     color: var(--gray-700);
     line-height: 1.6;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('../images/bg-pattern-d.svg');
+    background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('../images/bg-pattern-d.webp');
     background-repeat: repeat;
     background-position: center top;
     background-attachment: fixed;

@@ -10,7 +10,7 @@
                 <div class="footer-grid">
                     <div class="footer-brand">
                         <a href="<?php echo esc_url(home_url('/')); ?>" class="footer-logo">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.svg" alt="Daher Clínica" class="footer-logo-img" width="120" height="135">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.png" alt="Daher Clínica" class="footer-logo-img" width="120" height="135">
                             <span class="footer-logo-text">Daher <span class="accent">Clínica</span></span>
                         </a>
                         <p><?php _e('Excelência médica, tecnologia avançada e cuidados que realçam sua saúde e autoestima.', 'daherclinica'); ?></p>
