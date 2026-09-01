@@ -7,3 +7,6 @@ project.txt
 assets/images/images-modelo.zip
 
 *.zip
+
+# Relatórios de auditoria e IA
+auditoria/
