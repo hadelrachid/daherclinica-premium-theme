@@ -52,9 +52,23 @@ O painel permite a edição completa de:
 
 ## 🛠️ Instalação e Requisitos
 
-1. Faça o upload da pasta `daherclinica-premium` para o diretório `/wp-content/themes/` do seu WordPress.
+1. Faça o upload da pasta `daherclinica-premium` para o diretório `/wp-content/themes/` do seu WordPress (ou instale o arquivo `.zip` via painel em Aparência > Temas).
 2. Ative o tema pelo painel de controle.
-3. Se estiver migrando de outro tema, rode o plugin **Regenerate Thumbnails** 1 (uma) vez para que o WordPress recorte suas imagens nas novas métricas de performance. Após rodar, o plugin pode ser deletado.
+3. Recomendação: Se estiver migrando de outro tema, rode o plugin **Regenerate Thumbnails** apenas 1 (uma) vez para que o WordPress recorte suas imagens nas novas métricas de performance. Após rodar, o plugin pode ser deletado.
+
+## 📖 Como Usar e Configurar (Guia Rápido)
+
+Após ativar o tema, o WordPress estará pronto para a estrutura da clínica:
+
+1. **Configuração da Página Inicial:**
+   - Crie uma página em branco chamada `Home` e outra chamada `Blog` (se aplicável).
+   - Vá em **Configurações > Leitura** e defina `Página Inicial` como uma página estática, selecionando a sua página "Home".
+2. **Painel Exclusivo "Daher Clínica":**
+   - No menu lateral do WordPress, aparecerá um novo painel com a logo da Daher Clínica.
+   - É lá que você deve inserir os textos de Contato, o número oficial do WhatsApp, links das Redes Sociais e cadastrar/editar os Médicos (Corpo Clínico) e Especialidades.
+3. **Menus (Navegação):**
+   - Vá em **Aparência > Menus** e crie o seu menu principal.
+   - Marque a caixinha `Primary Menu` (ou Menu Principal) no rodapé da página para que ele apareça no cabeçalho fixo e no menu mobile do tema.
 
 ## 🔗 Sobre o Autor
 
