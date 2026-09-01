@@ -1,16 +1,16 @@
 # Daher Clínica Premium - Tema WordPress Otimizado
 
 **Desenvolvido por:** [Hadel Rachid Daher Junior](https://github.com/hadelrachid)  
-**Versão:** 2.6.7  
+**Versão:** 2.6.8  
 **Arquitetura:** Vanilla JS/CSS (Zero Plugins Dependencies)
 
 Este é um tema WordPress customizado, projetado do zero com um foco implacável em **Alta Performance (PageSpeed Insights)**, **Segurança**, e **Acessibilidade (WCAG)** para clínicas médicas.
 
 ---
 
-## 🚀 Destaques de Performance (PageSpeed: 99 Desktop / 93 Mobile)
+## 🚀 Destaques de Performance (PageSpeed: 95 Desktop / 96 Mobile)
 
-Diferente de temas comerciais inchados, este projeto adota a filosofia *"Zero Plugins"*, onde toda a inteligência de otimização está embutida no núcleo do tema (functions/PHP).
+Atingir a marca de **96% no Mobile** em um CMS robusto como o WordPress (mantendo animações, efeitos de hover e layout premium) é um feito de engenharia. Diferente de temas comerciais inchados, este projeto adota a filosofia *"Zero Plugins"*, onde toda a inteligência de otimização está embutida nativamente na arquitetura do tema.
 
 - **Google Maps Facade Pattern:** Substituição inteligente do Iframe pesado do Maps por um placeholder estático, poupando quase 500KB de JavaScript inútil no carregamento inicial da página de Contato. O mapa real só é injetado sob demanda (interação do usuário).
 - **Fontes 100% Locais & Preload:** Google Fonts eliminadas como dependência externa de renderização. Fontes convertidas em `.woff2`, chamadas nativamente via `@font-face (swap)` com `<link rel="preload">` inserido no Head, mitigando o Flash of Unstyled Content (FOUC) sem travar a thread principal.
