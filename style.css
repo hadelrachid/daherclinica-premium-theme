@@ -1,0 +1,111 @@
+/*
+Theme Name: Daher Clínica - Premium
+Theme URI: https://daherclinica.com
+Author: Hadel Rachid Daher Junior
+Author URI: https://daherclinica.com
+Description: Tema institucional para Daher Clínica - Especialidades em Cirurgia Vascular e Dermatologia. Design premium com efeito parallax, alta performance, modularidade e total conformidade com LGPD.
+Version: 2.6.7
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: daherclinica
+Domain Path: /languages
+Tags: clinic, medical, health, vascular, dermatology, responsive-layout, custom-menu, featured-images, theme-options, blog, two-columns
+*/
+
+/* ============================================================
+   ESTE ARQUIVO CONTÉM APENAS O CABEÇALHO DO TEMA
+   ============================================================
+   
+   ✅ Os estilos visuais estão organizados em:
+   
+   📁 /assets/css/main.css       → TODOS os estilos do tema
+        - Variáveis CSS (cores, espaçamentos, sombras)
+        - Reset e estilos base
+        - Header e navegação
+        - Hero section com parallax
+        - About section
+        - Especialidades (cards)
+        - Team section (médicos)
+        - Contact section com formulário
+        - Footer
+        - WhatsApp float button
+        - Media queries responsivas
+   
+   📁 /assets/css/blog.css       → Estilos específicos do blog
+        - Grid de posts
+        - Cards de artigos
+        - Paginação
+        - Layout do post individual
+   
+   📁 /assets/css/editor-style.css → Estilos do editor Gutenberg
+   
+   ✅ Os scripts JavaScript estão em:
+   
+   📁 /assets/js/main.js         → TODOS os comportamentos
+        - Efeito parallax no fundo dourado
+        - Efeito parallax no hero
+        - Header scroll effect
+        - Menu mobile toggle
+        - Smooth scroll para âncoras
+        - Formulário de contato (envio via WhatsApp)
+        - Efeito de brilho nos cards
+        - Intersection Observer para animações
+   
+   📁 /assets/js/blog.js          → Comportamentos específicos do blog
+        - Lazy loading de imagens
+        - Analytics de visualização de cards
+   
+   ✅ Arquitetura PHP modular (alta coesão / baixo acoplamento):
+   
+   📁 /inc/
+        ├── setup.php             → Configurações e suportes do tema
+        ├── menus.php             → Registro de menus (primary, footer)
+        ├── assets.php            → Enfileiramento de CSS/JS
+        ├── icons.php             → Funções para ícones SVG
+        ├── doctors.php           → CPT Médicos + fallback
+        ├── customizer.php        → Opções do Customizer
+        ├── widgets.php           → Sidebars e widgets customizados
+        └── class-settings-api.php → Painel administrativo
+   
+   📁 /layouts/
+        ├── header.php            → Header (navbar, assets, SEO)
+        ├── footer.php            → Footer (widgets, copyright, modals)
+        ├── index.php             → Fallback padrão
+        └── single.php            → Post individual do blog
+   
+   📁 /pages/
+        ├── front-page.php        → Home page modular
+        ├── page-blog.php         → Grid do blog
+        ├── page-contato.php      → Página de contato
+        ├── page-especialidades.php → Especialidades detalhadas
+        ├── page-sobre.php        → Página institucional
+        ├── page-privacidade.php  → Política de privacidade (LGPD)
+        └── page-termos.php       → Termos de uso
+   
+   📁 /template-parts/
+        ├── hero.php              → Hero section
+        ├── sobre.php             → Sobre section
+        ├── especialidades.php    → Especialidades section
+        ├── corpo-clinico.php     → Médicos (CPT + fallback)
+        └── contato.php           → Formulário de contato
+   
+   ============================================================
+   
+   ✅ TEMA 100% MODULAR E OTIMIZADO:
+   
+   - 🚀 Performance: Apenas 1 arquivo CSS principal + 1 JS principal
+   - 📱 Responsivo: Mobile first com breakpoints otimizados
+   - 🔍 SEO: Estrutura semântica, title-tag, meta descriptions
+   - 🎨 Design Premium: Efeito parallax, gradientes, cards com hover
+   - 🔒 LGPD: Notificação de cookies e modal jurídico
+   - 👨‍⚕️ CPT Médicos: Gerenciável pelo admin
+   - ⚙️ Painel Admin: Configurações completas (Settings API)
+   - 🌍 Internacionalização: Pronto para tradução (gettext)
+   - 🧩 Gutenberg: Suporte a blocos e editor-style.css
+   
+   ============================================================
+   
+   Desenvolvido por Hadel Rachid Daher Junior
+   © 2026 Daher Clínica - Todos os direitos reservados
+   
+   ============================================================ */

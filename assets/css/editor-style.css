@@ -1,0 +1,33 @@
+/* ==============================================================
+   Daher Clínica - Estilos do Editor Gutenberg
+   ============================================================== */
+
+/* Tipografia */
+body {
+    font-family: 'Inter', sans-serif;
+    color: #2D3748;
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    color: #1A365D;
+}
+
+/* Cores e Utilitários */
+.accent {
+    color: #C5A880;
+}
+
+/* Customização de largura do editor */
+.wp-block {
+    max-width: 800px;
+}
+
+.wp-block[data-align="wide"] {
+    max-width: 1080px;
+}
+
+.wp-block[data-align="full"] {
+    max-width: none;
+}
