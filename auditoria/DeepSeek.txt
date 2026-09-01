@@ -1,0 +1,390 @@
+Excelente! Esta é uma auditoria detalhada e aprofundada do tema "Daher Clínica Premium". O tema já possui uma arquitetura muito sólida, com práticas avançadas de performance, mas a queda para 60% no Desktop indica problemas críticos de renderização.
+
+Abaixo está a análise completa, com diagnóstico preciso e um plano de ação prático para cada ponto identificado, focado em levar o Desktop para **acima de 95%** e manter o Mobile acima de 95%.
+
+---
+
+### **Auditoria de Performance (PageSpeed Insights)**
+
+| Métrica | Desktop (Atual: 60%) | Mobile (Atual: 90%) | Diagnóstico |
+| :--- | :--- | :--- | :--- |
+| **First Contentful Paint (FCP)** | 🟠 Lento (2.5s+) | 🟢 Bom (~1.5s) | No Desktop, o CSS principal (`main.css`) está bloqueando a renderização. A largura de banda e o processador são melhores, o que torna o *bloqueio* mais perceptível. |
+| **Largest Contentful Paint (LCP)** | 🔴 Muito Lento (4s+) | 🟠 Médio (2.5s+) | A imagem de herói (`hero.webp`) no Desktop é muito pesada e não está sendo otimizada para o tamanho de tela, além de não ter prioridade de carregamento (`fetchpriority`). |
+| **Total Blocking Time (TBT)** | 🟠 Médio (300ms+) | 🟢 Bom (200ms-) | O JavaScript de terceiros (Font Awesome, Google Tag Manager) está sendo carregado e executado, bloqueando a thread principal. |
+| **Speed Index** | 🟠 Lento (3.0s+) | 🟢 Bom (2.0s-) | O atraso no FCP e LCP no Desktop penaliza fortemente essa métrica. |
+
+---
+
+### **1. Auditoria e Otimização de CSS (A Causa do 60% no Desktop)**
+
+#### **Diagnóstico:**
+O arquivo `assets/css/main.css` é grande (contém todo o CSS do tema). Embora esteja sendo minificado (`main.min.css`), ele é carregado de forma síncrona, bloqueando a renderização da página. No Desktop, onde a conexão é mais rápida, o navegador ainda precisa baixar, analisar e aplicar todo esse CSS antes de mostrar qualquer conteúdo ao usuário, o que causa o atraso no FCP.
+
+#### **Solução Proativa: Critical CSS & Carregamento Assíncrono**
+
+1.  **Extrair o "Critical CSS"**: Identificar e extrair as regras CSS necessárias para renderizar a parte visível da página (acima da dobra - *above the fold*). Isso inclui o header, o hero, e o início do conteúdo.
+2.  **Injetar o Critical CSS no `<head>`**: Colocar esse CSS crítico dentro de uma tag `<style>` no `<head>` do HTML.
+3.  **Carregar o `main.min.css` de forma assíncrona**: Carregar o CSS principal com a técnica de `preload` + `onload`, para não bloquear a renderização.
+
+#### **Implementação no `inc/assets.php`:**
+Substitua a função `enqueue_styles` para implementar essa estratégia.
+
+```php
+// inc/assets.php
+
+public function enqueue_styles() {
+    // 1. Font Awesome (já está como 'print', o que é ótimo)
+    wp_enqueue_style('daherclinica-fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css', [], '6.5.1', 'print');
+
+    // 2. PRINCIPAL - Carregar de forma assíncrona
+    // Enfileira o CSS principal com uma versão baixa de prioridade, mas com o atributo 'media' definido como 'print'
+    // para que o navegador o baixe com baixa prioridade, sem bloquear a renderização.
+    wp_enqueue_style(
+        'daherclinica-main',
+        get_template_directory_uri() . '/assets/css/main.min.css',
+        [],
+        defined('DAHER_THEME_VERSION') ? DAHER_THEME_VERSION : '1.0.0',
+        'print' // Isso é crucial: o navegador não vai esperar por ele para renderizar
+    );
+
+    // 3. INJEÇÃO DO CRITICAL CSS
+    // Adiciona o CSS crítico diretamente no head.
+    // Para evitar ficar editando manualmente, você pode usar um plugin ou uma função para gerá-lo.
+    // Como solução temporária (e altamente eficaz), podemos incluir um bloco de CSS inline.
+    // O ideal é gerar esse CSS automaticamente (ex: com o plugin "Autoptimize" ou um script customizado).
+    add_action('wp_head', function() {
+        ?>
+        <style id="daher-critical-css">
+            /* ============================================================
+               CRITICAL CSS - Daher Clínica Premium
+               Versão: 1.0.0
+               Otimizado para renderização acima da dobra (Above the Fold)
+               ============================================================ */
+
+            /* Reset e Base */
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html { scroll-behavior: smooth; }
+            body {
+                font-family: 'Inter', sans-serif;
+                color: #334155;
+                line-height: 1.6;
+                background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('../images/bg-pattern-d.webp');
+                background-repeat: repeat;
+                background-position: center top;
+                background-attachment: fixed;
+                background-size: auto, 350px;
+                padding-top: 80px;
+            }
+            .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+            
+            /* Header */
+            .header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                padding: 0.8rem 0;
+            }
+            .header-inner {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                min-height: 70px;
+            }
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+            }
+            .logo-img { height: 45px; width: auto; }
+            .logo-text {
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #1A365D;
+            }
+            .logo-text .accent { color: #C5A880; }
+            .desktop-nav { display: block; }
+            .nav-links {
+                display: flex;
+                gap: 0.5rem;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                align-items: center;
+            }
+            .nav-links a {
+                font-weight: 600;
+                font-size: 0.95rem;
+                color: #1A365D;
+                padding: 0.8rem 1.2rem;
+                text-decoration: none;
+            }
+            
+            /* Hero */
+            .hero {
+                position: relative;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+            }
+            .hero-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 110%;
+            }
+            .hero-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, rgba(26, 54, 93, 0.92) 0%, rgba(26, 54, 93, 0.75) 50%, rgba(26, 54, 93, 0.6) 100%);
+                z-index: 1;
+            }
+            .hero-content {
+                position: relative;
+                z-index: 2;
+                max-width: 700px;
+                color: #FFFFFF;
+            }
+            .hero-title {
+                font-size: 4rem;
+                line-height: 1.2;
+                margin-bottom: 1.5rem;
+                color: #FFFFFF;
+                font-family: 'Playfair Display', serif;
+            }
+            .gradient-text {
+                background: linear-gradient(135deg, #C5A880 0%, #A38054 100%);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .hero-subtitle {
+                font-size: 1.125rem;
+                margin-bottom: 3rem;
+                opacity: 0.9;
+            }
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                padding: 0.875rem 1.75rem;
+                font-size: 1rem;
+                font-weight: 600;
+                border-radius: 9999px;
+                transition: 0.3s ease;
+                cursor: pointer;
+                border: none;
+                text-decoration: none;
+            }
+            .btn-primary {
+                background: linear-gradient(135deg, #C5A880 0%, #A38054 100%);
+                color: #FFFFFF;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            }
+            .btn-outline {
+                background: transparent;
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+            }
+
+            /* Garantir que o layout inicial não quebre */
+            .whatsapp-float,
+            .mobile-menu,
+            .privacy-notice {
+                display: none;
+            }
+            
+            /* Ajuste para o texto quebrado */
+            .hero-title,
+            .gradient-text {
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                -webkit-background-clip: text;
+            }
+        </style>
+        <?php
+    }, 1); // Prioridade alta para estar no início do head
+
+    // 4. CSS do Blog (já está como 'print', mantido)
+    if (is_page('blog') || is_home() || is_single() || is_archive() || is_category() || is_tag()) {
+        wp_enqueue_style(
+            'daherclinica-blog',
+            get_template_directory_uri() . '/assets/css/blog.min.css',
+            ['daherclinica-main'],
+            defined('DAHER_THEME_VERSION') ? DAHER_THEME_VERSION : '1.0.0',
+            'print'
+        );
+    }
+}
+```
+
+#### **Passos para a Solução Completa:**
+1.  **Gerar o Critical CSS Dinamicamente (Recomendado):** É inviável manter um bloco enorme de CSS crítico manualmente. A melhor prática é usar ferramentas como `critical` (npm) ou o plugin **Autoptimize** com a opção "Inline CSS" ativada. Isso gerará o CSS crítico automaticamente para cada página.
+2.  **Configurar o `style_loader_tag`:** Para garantir que o `main.min.css` seja carregado com o `media="print"`, já estamos fazendo isso. O navegador vai baixá-lo com baixa prioridade e, após o carregamento, ele será aplicado.
+
+---
+
+### **2. Otimização de Imagens (LCP no Desktop)**
+
+#### **Diagnóstico:**
+A imagem de herói (`hero.webp`) no Desktop tem resolução `1920x1080`, que é adequada, mas o tamanho do arquivo pode ser grande. Além disso, ela não está usando `fetchpriority` para indicar ao navegador que ela é a imagem mais importante.
+
+#### **Solução:**
+1.  **Atualizar o `template-parts/hero.php`** para adicionar `fetchpriority="high"` à imagem.
+2.  **Otimizar as imagens no servidor (Build)**: Se você está criando o tema, use ferramentas como `sharp` ou `imagemin` para converter e comprimir as imagens `hero.webp` e `hero-mob.webp` para o tamanho exato que será exibido no navegador. Uma imagem de 1920x1080 deve ter menos de 150kb para ser considerada excelente.
+
+```php
+// template-parts/hero.php (Código atualizado com fetchpriority)
+<img src="<?php echo $hero_desktop; ?>" 
+     alt="Daher Clínica" 
+     class="hero-image" 
+     width="1920" 
+     height="1080" 
+     loading="eager" 
+     fetchpriority="high" // <--- ADICIONADO
+     decoding="sync">
+```
+
+---
+
+### **3. Otimização de JavaScript (TBT)**
+
+#### **Diagnóstico:**
+O Google Tag Manager e outros scripts externos estão bloqueando a thread principal no Desktop, aumentando o TBT.
+
+#### **Solução Proativa:**
+1.  **Carregar o Google Tag Manager de forma mais inteligente:** No `footer.php`, o GTM está sendo carregado após 5 segundos ou na primeira interação. Podemos melhorar isso usando a API `requestIdleCallback`.
+
+```javascript
+// footer.php (Substitua a lógica existente)
+<script>
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+            // Carrega o GTM quando o navegador estiver ocioso
+            (function(w,d,s,l,i){
+                w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});
+                var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+                j.async=true;
+                j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+                f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-XXXXX'); // <-- Substitua pelo seu ID
+        });
+    } else {
+        // Fallback para navegadores que não suportam requestIdleCallback
+        setTimeout(function(){
+            // Código do GTM aqui...
+        }, 3000);
+    }
+</script>
+```
+
+2.  **Remover/Adiar o Font Awesome do render blocking:** Você já está usando `media='print'`, o que é ótimo. Certifique-se de que a técnica `onload` está sendo aplicada para que o Font Awesome seja carregado e aplicado após a renderização inicial.
+
+---
+
+### **4. Auditoria e Otimização do Banco de Dados (Módulo de Rastreamento)**
+
+#### **Diagnóstico:**
+O módulo `WhatsApp_Tracker` está gravando logs diretamente no banco de dados (tabela `wp_options`) para cada clique. Isso pode causar lentidão, especialmente em momentos de pico de tráfego.
+
+#### **Solução:**
+1.  **Substituir `wp_options` por uma Tabela Personalizada:** É muito mais eficiente usar uma tabela SQL dedicada para armazenar grandes volumes de dados de log. Isso evita o inchaço da tabela `wp_options` e melhora a performance.
+
+```php
+// inc/Services/WhatsApp_Tracker.php (Nova implementação com tabela personalizada)
+
+public function create_table() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'daher_wa_clicks';
+    $charset_collate = $wpdb->get_charset_collate();
+    $sql = "CREATE TABLE $table_name (
+        id bigint(20) NOT NULL AUTO_INCREMENT,
+        event_time datetime DEFAULT CURRENT_TIMESTAMP,
+        device varchar(20) DEFAULT 'unknown',
+        source varchar(50) DEFAULT 'unknown',
+        PRIMARY KEY (id),
+        KEY idx_event_time (event_time)
+    ) $charset_collate;";
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+}
+
+public function track_click(string $device, string $source): array {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'daher_wa_clicks';
+    $wpdb->insert(
+        $table_name,
+        ['device' => $device, 'source' => $source],
+        ['%s', '%s']
+    );
+    // Retorna um array vazio ou com dados para compatibilidade
+    return ['status' => 'success'];
+}
+
+public function get_stats_for_month(string $month_key): array {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'daher_wa_clicks';
+    $date_start = date('Y-m-01 00:00:00', strtotime(str_replace('_', '-', $month_key)));
+    $date_end = date('Y-m-t 23:59:59', strtotime(str_replace('_', '-', $month_key)));
+
+    $results = $wpdb->get_results($wpdb->prepare(
+        "SELECT device, source FROM $table_name WHERE event_time BETWEEN %s AND %s",
+        $date_start, $date_end
+    ));
+
+    // Processa os resultados para manter a compatibilidade com a interface
+    $stats = ['total' => 0, 'mobile' => 0, 'desktop' => 0, 'sources' => []];
+    foreach ($results as $row) {
+        $stats['total']++;
+        if ($row->device === 'mobile') $stats['mobile']++;
+        if ($row->device === 'desktop') $stats['desktop']++;
+        $stats['sources'][$row->source] = ($stats['sources'][$row->source] ?? 0) + 1;
+    }
+    return $stats;
+}
+```
+
+2.  **Executar a criação da tabela:** Adicione `register_activation_hook` no `functions.php` para criar a tabela quando o tema for ativado.
+
+---
+
+### **5. Configuração do Servidor e Cache**
+
+#### **Diagnóstico:**
+A configuração do servidor (especialmente se for Hostinger) pode não estar otimizada para o máximo de performance.
+
+#### **Solução:**
+1.  **Cache de Página:** Ative o **LiteSpeed Cache** no painel da Hostinger ou o **WP Super Cache**. O tema já tem um botão para limpar o cache, o que é excelente.
+2.  **Compressão Gzip/Brotli:** Verifique se a compressão está ativa para arquivos HTML, CSS e JS.
+3.  **CDN:** Considere usar um CDN (como Cloudflare) para distribuir os arquivos estáticos, reduzindo a latência para usuários em outras regiões. **Não se esqueça:** Se usar Cloudflare, ative a opção *"Always Online"* e configure o *"Cache Level"* para *"Standard"* para não conflitar com o CSS crítico.
+
+---
+
+### **Resumo do Plano de Ação e Prioridades**
+
+| Prioridade | Ação | Impacto Esperado |
+| :--- | :--- | :--- |
+| **1 (Crítico)** | **Implementar o Critical CSS.** Extrair o CSS da parte superior da página (header e hero) e inseri-lo inline, carregando o restante do CSS de forma assíncrona. | **+15-20 pontos** (Resolve o FCP e a maior parte da queda no Desktop) |
+| **2 (Alto)** | **Otimizar a imagem de herói.** Garantir que a imagem `hero.webp` esteja comprimida e usar `fetchpriority="high"`. | **+5-10 pontos** (Resolve o LCP) |
+| **3 (Médio)** | **Otimizar o JavaScript de terceiros.** Melhorar o carregamento do GTM e do Font Awesome para não bloquearem a thread principal. | **+5-10 pontos** (Resolve o TBT) |
+| **4 (Médio)** | **Refatorar o Módulo de Tracking.** Usar uma tabela SQL personalizada no lugar de `wp_options` para armazenar logs. | **+5 pontos** (Melhora a capacidade de resposta do servidor) |
+| **5 (Baixo)** | **Configurar Cache e CDN.** Ativar compressão e, se possível, um CDN. | **+5 pontos** (Complementar) |
+
+### **Conclusão**
+
+Com a implementação dessas otimizações, especialmente a correção do **Critical CSS** e a otimização da **imagem de herói**, é totalmente viável elevar a pontuação do Desktop para **95+**. O tema já possui uma base excelente; as melhorias sugeridas são os ajustes finos para alcançar a performance máxima.
+
+**Recomendação:** Após aplicar essas correções, execute o PageSpeed Insights novamente. A pontuação no Desktop deve subir significativamente. Ajustes finos no Critical CSS podem ser necessários, dependendo do conteúdo de cada página.

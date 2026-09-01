@@ -16,13 +16,17 @@ $modules = [
     'inc/assets.php',          // ✅ Enfileira APENAS main.css + main.js
     'inc/performance.php',     // Módulo de Otimização e Velocidade Nativa (Daher Speed)
     'inc/doctors.php',         // CPT Médicos
-    'inc/class-settings-api.php', // Painel administrativo
 ];
 
 foreach ($modules as $module) {
     if (file_exists(DAHER_THEME_DIR . '/' . $module)) {
         require_once DAHER_THEME_DIR . '/' . $module;
     }
+}
+
+// Carrega o painel administrativo apenas no wp-admin (Performance)
+if (is_admin()) {
+    require_once DAHER_THEME_DIR . '/inc/class-settings-api.php';
 }
 
 // Os módulos acima já se auto-inicializam ou registram seus hooks ao serem carregados.

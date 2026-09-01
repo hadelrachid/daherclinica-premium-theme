@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <!-- Preconnect hints for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -30,8 +32,6 @@
     </script>
 
 
-    <meta charset="<?php bloginfo('charset'); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
     <?php 
     $description = get_bloginfo('description', 'display');
@@ -127,7 +127,6 @@
     
     <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/playfair.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/css/main.min.css" as="style">
 
     <?php wp_head(); ?>
 </head>
