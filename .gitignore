@@ -6,3 +6,4 @@ project.txt
 # Arquivos temporários e backups
 assets/images/images-modelo.zip
 
+*.zip
