@@ -85,9 +85,8 @@
                     <div class="footer-links">
                         <h4><?php _e('Institucional', 'daherclinica'); ?></h4>
                         <ul>
-                            <li><a href="<?php echo $privacidade_page ? get_permalink($privacidade_page) : esc_url(home_url('/privacidade')); ?>"><?php _e('Política de Privacidade', 'daherclinica'); ?></a></li>
-                            <li><a href="<?php echo $termos_page ? get_permalink($termos_page) : esc_url(home_url('/termos-de-uso')); ?>"><?php _e('Termos de Uso', 'daherclinica'); ?></a></li>
-                            <li><a href="#" class="open-privacy-notice"><?php _e('LGPD', 'daherclinica'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/sobre')); ?>"><?php _e('Sobre Nós', 'daherclinica'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/especialidades')); ?>"><?php _e('Especialidades', 'daherclinica'); ?></a></li>
                         </ul>
                     </div>
                     
@@ -129,10 +128,7 @@
             <div class="container privacy-container">
                 <div class="privacy-content">
                     <p>
-                        <?php _e('Utilizamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa', 'daherclinica'); ?>
-                        <a href="<?php echo $privacidade_page ? get_permalink($privacidade_page) : esc_url(home_url('/privacidade')); ?>"><?php _e('Política de Privacidade', 'daherclinica'); ?></a>
-                        <?php _e('e', 'daherclinica'); ?>
-                        <a href="<?php echo $termos_page ? get_permalink($termos_page) : esc_url(home_url('/termos-de-uso')); ?>"><?php _e('Termos de Uso', 'daherclinica'); ?></a>
+                        <?php _e('Utilizamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa Política de Privacidade e Termos de Uso.', 'daherclinica'); ?>
                     </p>
                 </div>
                 <div class="privacy-actions">

@@ -203,14 +203,7 @@
             
             <div class="mobile-divider"></div>
             
-            <div class="mobile-legal-links">
-                <?php 
-                $privacidade_page = get_page_by_path('privacidade');
-                $termos_page = get_page_by_path('termos-de-uso');
-                ?>
-                <a href="<?php echo $privacidade_page ? get_permalink($privacidade_page) : esc_url(home_url('/privacidade')); ?>" class="open-legal-modal"><?php _e('Política de Privacidade', 'daherclinica'); ?></a>
-                <a href="<?php echo $termos_page ? get_permalink($termos_page) : esc_url(home_url('/termos-de-uso')); ?>" class="open-legal-modal"><?php _e('Termos de Uso', 'daherclinica'); ?></a>
-            </div>
+
         </div>
     </div>
     

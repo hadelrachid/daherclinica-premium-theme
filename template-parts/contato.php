@@ -158,11 +158,7 @@ if (!defined('ABSPATH')) {
                     <div class="form-group checkbox-group">
                         <label class="checkbox-label">
                             <input type="checkbox" id="privacy" required>
-                            <?php 
-                            $privacidade_page = get_page_by_path('privacidade');
-                            $termos_page = get_page_by_path('termos-de-uso');
-                            ?>
-                            <span><?php _e('Li e aceito a', 'daherclinica'); ?> <a href="<?php echo $privacidade_page ? get_permalink($privacidade_page) : esc_url(home_url('/privacidade')); ?>" class="open-legal-modal"><?php _e('Política de Privacidade', 'daherclinica'); ?></a> <?php _e('e os', 'daherclinica'); ?> <a href="<?php echo $termos_page ? get_permalink($termos_page) : esc_url(home_url('/termos-de-uso')); ?>" class="open-legal-modal"><?php _e('Termos de Uso', 'daherclinica'); ?></a> *</span>
+                            <span><?php _e('Li e aceito a Política de Privacidade e os Termos de Uso', 'daherclinica'); ?> *</span>
                         </label>
                     </div>
                     
