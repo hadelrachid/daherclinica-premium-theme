@@ -1942,7 +1942,26 @@ class SettingsAPI {
         <?php
     }   
 
-
+    public function sanitize_legal($input) {
+        $output = [];
+        $output['privacy_page'] = absint($input['privacy_page'] ?? 0);
+        $output['terms_page'] = absint($input['terms_page'] ?? 0);
+        return $output;
+    }
+    
+    public function dropdown_pages_callback($args) {
+        $options = get_option('daher_legal_options', []);
+        $selected = isset($options[$args['id']]) ? $options[$args['id']] : 0;
+        
+        wp_dropdown_pages([
+            'name'              => 'daher_legal_options[' . $args['id'] . ']',
+            'id'                => $args['id'],
+            'show_option_none'  => '&mdash; Selecione uma página (Desativado) &mdash;',
+            'option_none_value' => '0',
+            'selected'          => $selected,
+        ]);
+        echo '<p class="description">Se selecionada, o link para esta página aparecerá no rodapé, modal LGPD e formulários. Se não for selecionada nenhuma, os links não serão exibidos.</p>';
+    }
 }
 
 // Inicializa a classe
