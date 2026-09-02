@@ -1184,6 +1184,9 @@ class SettingsAPI {
                 <a href="?page=daher-settings&tab=sobre" class="nav-tab <?php echo $active_tab == 'sobre' ? 'nav-tab-active' : ''; ?>">
                     📖 Sobre
                 </a>
+                                <a href="?page=daher-settings&tab=legal" class="nav-tab <?php echo $active_tab == 'legal' ? 'nav-tab-active' : ''; ?>">
+                    ⚖️ Páginas Legais
+                </a>
                 <a href="?page=daher-settings&tab=media" class="nav-tab <?php echo $active_tab == 'media' ? 'nav-tab-active' : ''; ?>">
                     🖼️ Mídia & SEO
                 </a>
@@ -1232,10 +1235,15 @@ class SettingsAPI {
                         do_settings_sections('daher-sobre');
                         submit_button('Salvar Configurações da Página Sobre');
                         break;
-                    case 'media':
+                                        case 'media':
                         settings_fields('daher_media_group');
                         do_settings_sections('daher-media');
                         submit_button('Salvar Mídia & SEO');
+                        break;
+                    case 'legal':
+                        settings_fields('daher_legal_group');
+                        do_settings_sections('daher-legal');
+                        submit_button('Salvar Páginas Legais');
                         break;
                 }
                 ?>
@@ -1941,4 +1949,6 @@ class SettingsAPI {
 if (class_exists(__NAMESPACE__ . '\\SettingsAPI')) {
     new SettingsAPI();
 }
+
+
 
