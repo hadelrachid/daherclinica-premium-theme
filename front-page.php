@@ -16,6 +16,14 @@ get_header(); ?>
 <!-- Corpo Clínico Section (usando função global para evitar duplicação) -->
 <?php echo daherclinica_get_corpo_clinico(); ?>
 
+<!-- Blog Carousel Section -->
+<?php 
+$recent_posts = daherclinica_get_recent_posts(6);
+if (!empty($recent_posts)) {
+    get_template_part('template-parts/carousel-blog', null, ['posts' => $recent_posts]); 
+}
+?>
+
 <!-- Contato Section -->
 <?php get_template_part('template-parts/contato'); ?>
 

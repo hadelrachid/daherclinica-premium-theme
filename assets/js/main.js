@@ -620,6 +620,35 @@
         addAnimationStyles();
     }
 
+    
+    // ============================================================
+    // 11. CARROSSEL SOLID (Scroll Snap)
+    // ============================================================
+    function initCarousel() {
+        document.querySelectorAll('.daher-carousel-section').forEach(section => {
+            const viewport = section.querySelector('.daher-carousel-viewport');
+            const prevBtn = section.querySelector('.daher-carousel-btn.prev');
+            const nextBtn = section.querySelector('.daher-carousel-btn.next');
+            
+            if (!viewport || !prevBtn || !nextBtn) return;
+            
+            // Lógica genérica: Avança um 'slide' baseado na largura visível
+            const scrollAmount = () => {
+                const slide = viewport.querySelector('.daher-carousel-slide');
+                return slide ? slide.offsetWidth + 20 : viewport.offsetWidth / 2; // 20 é o gap do CSS
+            };
+
+            nextBtn.addEventListener('click', () => {
+                viewport.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                viewport.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+            });
+        });
+    }
+    initCarousel();
+
     // Inicializar quando o DOM estiver pronto
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
@@ -726,3 +755,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
     elementsToFade.forEach(el => observer.observe(el));
 });
+

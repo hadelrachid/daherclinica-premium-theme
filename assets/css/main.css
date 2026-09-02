@@ -3255,3 +3255,135 @@ section[id] {
     box-shadow: var(--shadow-xl);
 }
 
+
+/* ============================================================
+   15. CARROSSEL DO BLOG (SCROLL SNAP)
+   ============================================================ */
+.daher-carousel-section {
+    padding: 60px 0;
+    background: #f9f9f9;
+}
+.daher-carousel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.daher-carousel-controls {
+    display: flex;
+    gap: 10px;
+}
+.daher-carousel-btn {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+.daher-carousel-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+.daher-carousel-viewport {
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    padding-bottom: 20px;
+}
+.daher-carousel-viewport::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+.daher-carousel-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+}
+.daher-carousel-slide {
+    width: 320px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+}
+.daher-carousel-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+.daher-carousel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.card-image {
+    width: 100%;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    background-color: #eee;
+}
+.placeholder-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #ccc;
+}
+.card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.card-date {
+    font-size: 0.8rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+.card-excerpt {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 20px;
+    flex-grow: 1;
+    line-height: 1.5;
+}
+.card-readmore {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: auto;
+}
+.daher-carousel-card:hover .card-readmore i {
+    transform: translateX(5px);
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .daher-carousel-slide {
+        width: 80vw;
+    }
+}
