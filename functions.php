@@ -73,6 +73,16 @@ function daherclinica_comment_callback($comment, $args, $depth) {
  * Formata um número de telefone para exibição
  * Converte 5521977667676 para (21) 97766-7676
  */
+function daherclinica_get_whatsapp_clean() {
+    $options = get_option('daher_whatsapp_options', []);
+    $number = !empty($options['whatsapp_number']) ? $options['whatsapp_number'] : '5521977667676';
+    $clean = preg_replace('/[^0-9]/', '', $number);
+    if (strlen($clean) === 10 || strlen($clean) === 11) {
+        $clean = '55' . $clean;
+    }
+    return $clean;
+}
+
 function daherclinica_format_phone($phone) {
     $phone = preg_replace('/[^0-9]/', '', $phone);
     

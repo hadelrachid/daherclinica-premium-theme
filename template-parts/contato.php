@@ -53,8 +53,8 @@ if (!defined('ABSPATH')) {
                             $whatsapp_display = daherclinica_format_phone($whatsapp_raw);
                             ?>
                             <?php _e('Telefone:', 'daherclinica'); ?> <?php echo esc_html($phone_display); ?><br>
-                            <?php _e('WhatsApp:', 'daherclinica'); ?> 
-                            <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $whatsapp_raw); ?>?text=<?php echo urlencode('Olá! Acessei o site da clínica e gostaria de entrar em contato.'); ?>" target="_blank">
+                            <?php _e('WhatsApp:', 'daherclinica'); ?>
+                            <a href="https://wa.me/<?php echo function_exists('daherclinica_get_whatsapp_clean') ? daherclinica_get_whatsapp_clean() : '5521977667676'; ?>?text=<?php echo urlencode('Olá! Acessei o site da clínica e gostaria de entrar em contato.'); ?>" target="_blank">
                                 <?php echo esc_html($whatsapp_display); ?>
                             </a>
                         </p>

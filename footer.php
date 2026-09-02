@@ -49,7 +49,7 @@
                             
                             <!-- WhatsApp (ícone separado) -->
                             <?php 
-                            $whatsapp_clean = preg_replace('/[^0-9]/', '', $whatsapp_options['whatsapp_number'] ?? '5521977667676');
+                            $whatsapp_clean = function_exists('daherclinica_get_whatsapp_clean') ? daherclinica_get_whatsapp_clean() : '5521977667676';
                             if ($whatsapp_clean) : 
                             ?>
                                 <a href="https://wa.me/<?php echo esc_attr($whatsapp_clean); ?>?text=<?php echo urlencode('Olá! Acessei o site da clínica e gostaria de entrar em contato.'); ?>" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
@@ -113,7 +113,7 @@
         <?php 
         // Garante que $whatsapp_clean tenha valor mesmo se não foi definido acima
         if (empty($whatsapp_clean)) {
-            $whatsapp_clean = preg_replace('/[^0-9]/', '', get_option('daher_whatsapp_options', [])['whatsapp_number'] ?? '5521977667676');
+            $whatsapp_clean = function_exists('daherclinica_get_whatsapp_clean') ? daherclinica_get_whatsapp_clean() : '5521977667676';
             if (empty($whatsapp_clean)) $whatsapp_clean = '5521977667676';
         }
         ?>

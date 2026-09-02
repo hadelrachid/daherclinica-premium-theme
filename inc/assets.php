@@ -79,9 +79,7 @@ class DaherClinica_Assets {
     }
     
     private function get_whatsapp_number() {
-        $options = get_option('daher_whatsapp_options', []);
-        $number = !empty($options['whatsapp_number']) ? $options['whatsapp_number'] : get_theme_mod('whatsapp_number', '5521977667676');
-        return preg_replace('/[^0-9]/', '', $number);
+        return function_exists('daherclinica_get_whatsapp_clean') ? daherclinica_get_whatsapp_clean() : '5521977667676';
     }
 }
 
