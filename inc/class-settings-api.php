@@ -1636,6 +1636,7 @@ class SettingsAPI {
     // ============================================
     public function sanitize_especialidades($input) {
         $output = [];
+        $output['especialidades_page_id'] = absint($input['especialidades_page_id'] ?? 0);
         $output['especialidades_hero_title'] = sanitize_text_field($input['especialidades_hero_title'] ?? '');
         $output['especialidades_hero_subtitle'] = sanitize_textarea_field($input['especialidades_hero_subtitle'] ?? '');
         $output['tech_title'] = sanitize_text_field($input['tech_title'] ?? '');
@@ -1680,6 +1681,7 @@ class SettingsAPI {
     // ============================================
     public function sanitize_sobre($input) {
         $output = [];
+        $output['sobre_page_id'] = absint($input['sobre_page_id'] ?? 0);
         $output['sobre_hero_title'] = sanitize_text_field($input['sobre_hero_title'] ?? '');
         $output['sobre_hero_subtitle'] = wp_kses_post($input['sobre_hero_subtitle'] ?? '');
         $output['history_title'] = sanitize_text_field($input['history_title'] ?? '');
@@ -1967,6 +1969,34 @@ class SettingsAPI {
         return $output;
     }
     
+    public function dropdown_pages_especialidades_callback($args) {
+        $options = get_option('daher_especialidades_options', []);
+        $selected = isset($options[$args['id']]) ? $options[$args['id']] : 0;
+        
+        wp_dropdown_pages([
+            'name'              => 'daher_especialidades_options[' . $args['id'] . ']',
+            'id'                => $args['id'],
+            'show_option_none'  => '&mdash; Selecione uma página (Desativado) &mdash;',
+            'option_none_value' => '0',
+            'selected'          => $selected,
+        ]);
+        echo '<p class="description">Selecione a página que será linkada no rodapé como Especialidades.</p>';
+    }
+
+    public function dropdown_pages_sobre_callback($args) {
+        $options = get_option('daher_sobre_options', []);
+        $selected = isset($options[$args['id']]) ? $options[$args['id']] : 0;
+        
+        wp_dropdown_pages([
+            'name'              => 'daher_sobre_options[' . $args['id'] . ']',
+            'id'                => $args['id'],
+            'show_option_none'  => '&mdash; Selecione uma página (Desativado) &mdash;',
+            'option_none_value' => '0',
+            'selected'          => $selected,
+        ]);
+        echo '<p class="description">Selecione a página que será linkada no rodapé como Sobre Nós.</p>';
+    }
+
     public function dropdown_pages_callback($args) {
         $options = get_option('daher_legal_options', []);
         $selected = isset($options[$args['id']]) ? $options[$args['id']] : 0;
@@ -1986,6 +2016,7 @@ class SettingsAPI {
 if (class_exists(__NAMESPACE__ . '\\SettingsAPI')) {
     new SettingsAPI();
 }
+
 
 
 
