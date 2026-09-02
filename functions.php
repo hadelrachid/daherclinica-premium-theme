@@ -278,6 +278,13 @@ add_action('wp_ajax_track_wa_click', function() use ($tracker_service) {
     wp_send_json_success(['data' => $data]);
 });
 add_action('wp_ajax_nopriv_track_wa_click', function() use ($tracker_service) {
+    // ANTI-BOT: Bloquear no backend se o User Agent for de um robô
+    $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
+    if (empty($user_agent) || preg_match('/(bot|crawler|spider|crawling|googlebot|bingbot|yandex|duckduckbot|slurp)/i', $user_agent)) {
+        wp_send_json_success(['message' => 'Bot ignored']);
+        return;
+    }
+
     $device = isset($_POST['device']) ? sanitize_text_field($_POST['device']) : 'unknown';
     $source = isset($_POST['source']) ? sanitize_text_field($_POST['source']) : 'unknown';
     $data = $tracker_service->track_click($device, $source);
@@ -348,4 +355,6 @@ function daherclinica_get_recent_posts($limit = 6) {
     
     return $posts_data;
 }
+
+
 

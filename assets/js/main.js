@@ -696,7 +696,14 @@ document.addEventListener('DOMContentLoaded', function() {
             link.href = `${baseHref}?text=${dynamicMsg}`;
         }
 
-        link.addEventListener('click', function() {
+                link.addEventListener('click', function(e) {
+            // ANTI-BOT: Ignorar cliques sintéticos (scripted clicks)
+            if (e.isTrusted === false) return;
+            
+            // ANTI-BOT: Ignorar user agents conhecidos de bots/crawlers
+            const botPattern = /(bot|crawler|spider|crawling|googlebot|bingbot|yandex|duckduckbot|slurp)/i;
+            if (navigator.userAgent && botPattern.test(navigator.userAgent)) return;
+
             // Check if admin-ajax is available via local data
             let ajaxUrl = (typeof daherData !== 'undefined' && daherData.ajaxUrl) ? daherData.ajaxUrl : '/wp-admin/admin-ajax.php';
             ajaxUrl += '?action=track_wa_click&_nocache=' + new Date().getTime();
@@ -755,5 +762,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     elementsToFade.forEach(el => observer.observe(el));
 });
+
+
+
 
 
