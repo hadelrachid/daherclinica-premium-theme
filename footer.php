@@ -84,9 +84,23 @@
                     
                     <div class="footer-links">
                         <h4><?php _e('Institucional', 'daherclinica'); ?></h4>
-                        <ul>
+                                                <ul>
                             <li><a href="<?php echo esc_url(home_url('/sobre')); ?>"><?php _e('Sobre Nós', 'daherclinica'); ?></a></li>
                             <li><a href="<?php echo esc_url(home_url('/especialidades')); ?>"><?php _e('Especialidades', 'daherclinica'); ?></a></li>
+                            <?php 
+                            $legal_opts = get_option('daher_legal_options', []);
+                            $priv_id = !empty($legal_opts['privacy_page']) ? $legal_opts['privacy_page'] : 0;
+                            $term_id = !empty($legal_opts['terms_page']) ? $legal_opts['terms_page'] : 0;
+                            
+                            if ($priv_id) : ?>
+                                <li><a href="<?php echo get_permalink($priv_id); ?>"><?php _e('Política de Privacidade', 'daherclinica'); ?></a></li>
+                            <?php endif; ?>
+                            <?php if ($term_id) : ?>
+                                <li><a href="<?php echo get_permalink($term_id); ?>"><?php _e('Termos de Uso', 'daherclinica'); ?></a></li>
+                            <?php endif; ?>
+                            <?php if ($priv_id || $term_id) : ?>
+                                <li><a href="#" class="open-privacy-notice"><?php _e('LGPD', 'daherclinica'); ?></a></li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                     
@@ -128,7 +142,20 @@
             <div class="container privacy-container">
                 <div class="privacy-content">
                     <p>
-                        <?php _e('Utilizamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa Política de Privacidade e Termos de Uso.', 'daherclinica'); ?>
+                                                <?php _e('Utilizamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa', 'daherclinica'); ?>
+                        <?php if (!empty($priv_id)) : ?>
+                            <a href="<?php echo get_permalink($priv_id); ?>"><?php _e('Política de Privacidade', 'daherclinica'); ?></a>
+                        <?php else: ?>
+                            <?php _e('Política de Privacidade', 'daherclinica'); ?>
+                        <?php endif; ?>
+                        
+                        <?php _e('e', 'daherclinica'); ?>
+                        
+                        <?php if (!empty($term_id)) : ?>
+                            <a href="<?php echo get_permalink($term_id); ?>"><?php _e('Termos de Uso', 'daherclinica'); ?></a>.
+                        <?php else: ?>
+                            <?php _e('Termos de Uso', 'daherclinica'); ?>.
+                        <?php endif; ?>
                     </p>
                 </div>
                 <div class="privacy-actions">
@@ -169,4 +196,5 @@
         <?php wp_footer(); ?>
     </body>
     </html>
+
 

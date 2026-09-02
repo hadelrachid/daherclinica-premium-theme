@@ -201,8 +201,23 @@
             ]);
             ?>
             
-            <div class="mobile-divider"></div>
+                        <div class="mobile-divider"></div>
             
+            <?php 
+            $legal_opts = get_option('daher_legal_options', []);
+            $priv_id = !empty($legal_opts['privacy_page']) ? $legal_opts['privacy_page'] : 0;
+            $term_id = !empty($legal_opts['terms_page']) ? $legal_opts['terms_page'] : 0;
+            if ($priv_id || $term_id) :
+            ?>
+            <div class="mobile-legal-links">
+                <?php if ($priv_id) : ?>
+                    <a href="<?php echo get_permalink($priv_id); ?>" class="open-legal-modal"><?php _e('Política de Privacidade', 'daherclinica'); ?></a>
+                <?php endif; ?>
+                <?php if ($term_id) : ?>
+                    <a href="<?php echo get_permalink($term_id); ?>" class="open-legal-modal"><?php _e('Termos de Uso', 'daherclinica'); ?></a>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
 
         </div>
     </div>
@@ -212,3 +227,4 @@
 </header>
 
 <main>
+

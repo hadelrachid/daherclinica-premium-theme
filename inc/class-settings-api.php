@@ -164,8 +164,36 @@ class SettingsAPI {
     /**
      * Registrar todas as configurações
      */
-    public function register_settings() {
+    public function register_settings() {        // ============================================
+        // ABA 10: PÁGINAS LEGAIS
+        // ============================================
+        register_setting('daher_legal_group', 'daher_legal_options', [$this, 'sanitize_legal']);
         
+        add_settings_section(
+            'daher_legal_section',
+            '⚖️ Páginas Legais e LGPD',
+            null,
+            'daher-legal'
+        );
+        
+        add_settings_field(
+            'privacy_page',
+            'Página de Política de Privacidade',
+            [$this, 'dropdown_pages_callback'],
+            'daher-legal',
+            'daher_legal_section',
+            ['id' => 'privacy_page']
+        );
+        
+        add_settings_field(
+            'terms_page',
+            'Página de Termos de Uso',
+            [$this, 'dropdown_pages_callback'],
+            'daher-legal',
+            'daher_legal_section',
+            ['id' => 'terms_page']
+        );
+
         // ============================================
         // ABA 1: CLÍNICA
         // ============================================
@@ -1913,3 +1941,4 @@ class SettingsAPI {
 if (class_exists(__NAMESPACE__ . '\\SettingsAPI')) {
     new SettingsAPI();
 }
+

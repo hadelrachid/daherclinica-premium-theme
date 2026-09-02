@@ -158,7 +158,28 @@ if (!defined('ABSPATH')) {
                     <div class="form-group checkbox-group">
                         <label class="checkbox-label">
                             <input type="checkbox" id="privacy" required>
-                            <span><?php _e('Li e aceito a Política de Privacidade e os Termos de Uso', 'daherclinica'); ?> *</span>
+                                                        <?php 
+                            $legal_opts = get_option('daher_legal_options', []);
+                            $priv_id = !empty($legal_opts['privacy_page']) ? $legal_opts['privacy_page'] : 0;
+                            $term_id = !empty($legal_opts['terms_page']) ? $legal_opts['terms_page'] : 0;
+                            ?>
+                            <span>
+                                <?php _e('Li e aceito a', 'daherclinica'); ?> 
+                                <?php if ($priv_id) : ?>
+                                    <a href="<?php echo get_permalink($priv_id); ?>" class="open-legal-modal"><?php _e('Política de Privacidade', 'daherclinica'); ?></a> 
+                                <?php else: ?>
+                                    <?php _e('Política de Privacidade', 'daherclinica'); ?> 
+                                <?php endif; ?>
+                                
+                                <?php _e('e os', 'daherclinica'); ?> 
+                                
+                                <?php if ($term_id) : ?>
+                                    <a href="<?php echo get_permalink($term_id); ?>" class="open-legal-modal"><?php _e('Termos de Uso', 'daherclinica'); ?></a> 
+                                <?php else: ?>
+                                    <?php _e('Termos de Uso', 'daherclinica'); ?> 
+                                <?php endif; ?>
+                                *
+                            </span>
                         </label>
                     </div>
                     
@@ -172,3 +193,4 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 </section>
+
