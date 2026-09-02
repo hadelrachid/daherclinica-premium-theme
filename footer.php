@@ -85,8 +85,18 @@
                     <div class="footer-links">
                         <h4><?php _e('Institucional', 'daherclinica'); ?></h4>
                                                 <ul>
-                            <li><a href="<?php echo esc_url(home_url('/sobre')); ?>"><?php _e('Sobre Nós', 'daherclinica'); ?></a></li>
-                            <li><a href="<?php echo esc_url(home_url('/especialidades')); ?>"><?php _e('Especialidades', 'daherclinica'); ?></a></li>
+                                                        <?php
+                            $sobre_opts = get_option('daher_sobre_options', []);
+                            $espec_opts = get_option('daher_especialidades_options', []);
+                            $sobre_id = !empty($sobre_opts['sobre_page_id']) ? $sobre_opts['sobre_page_id'] : 0;
+                            $espec_id = !empty($espec_opts['especialidades_page_id']) ? $espec_opts['especialidades_page_id'] : 0;
+                            ?>
+                            <?php if ($sobre_id) : ?>
+                                <li><a href="<?php echo get_permalink($sobre_id); ?>"><?php _e('Sobre Nós', 'daherclinica'); ?></a></li>
+                            <?php endif; ?>
+                            <?php if ($espec_id) : ?>
+                                <li><a href="<?php echo get_permalink($espec_id); ?>"><?php _e('Especialidades', 'daherclinica'); ?></a></li>
+                            <?php endif; ?>
                             <?php 
                             $legal_opts = get_option('daher_legal_options', []);
                             $priv_id = !empty($legal_opts['privacy_page']) ? $legal_opts['privacy_page'] : 0;
@@ -196,5 +206,6 @@
         <?php wp_footer(); ?>
     </body>
     </html>
+
 
 

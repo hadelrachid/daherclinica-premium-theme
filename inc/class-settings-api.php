@@ -507,6 +507,15 @@ class SettingsAPI {
             'daher-especialidades'
         );
 
+                add_settings_field(
+            'especialidades_page_id',
+            'Página de Especialidades',
+            [$this, 'dropdown_pages_especialidades_callback'],
+            'daher-especialidades',
+            'daher_especialidades_hero_section',
+            ['id' => 'especialidades_page_id']
+        );
+
         add_settings_field(
             'especialidades_hero_title',
             'Título Principal',
@@ -615,6 +624,15 @@ class SettingsAPI {
             '🌟 Hero da Página Sobre',
             null,
             'daher-sobre'
+        );
+
+                add_settings_field(
+            'sobre_page_id',
+            'Página Sobre Nós',
+            [$this, 'dropdown_pages_sobre_callback'],
+            'daher-sobre',
+            'daher_sobre_hero_section',
+            ['id' => 'sobre_page_id']
         );
 
         add_settings_field(
@@ -1968,6 +1986,7 @@ class SettingsAPI {
 if (class_exists(__NAMESPACE__ . '\\SettingsAPI')) {
     new SettingsAPI();
 }
+
 
 
 
