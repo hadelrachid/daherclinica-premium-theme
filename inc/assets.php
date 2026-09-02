@@ -65,11 +65,16 @@ class DaherClinica_Assets {
             );
         }
         
+        // Busca o total de cliques atual para mostrar na mensagem
+        $tracker = new \DaherClinica\Services\WhatsApp_Tracker();
+        $user_count = $tracker->get_overall_total() + 1;
+
         // Dados globais para JavaScript
         wp_localize_script('daherclinica-main', 'daherData', [
             'ajaxUrl'        => admin_url('admin-ajax.php'),
             'siteUrl'        => get_site_url(),
             'whatsappNumber' => $this->get_whatsapp_number(),
+            'userCount'      => $user_count,
         ]);
     }
     

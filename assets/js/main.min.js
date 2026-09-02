@@ -334,6 +334,9 @@
             }
 
             const whatsappNumber = window.daherData?.whatsappNumber || '5521977667676';
+            const userCount = window.daherData?.userCount || 'XX';
+            const today = new Date().toLocaleDateString('pt-BR');
+            const isMobileStr = (window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? 'mobile' : 'desktop';
 
             let message = `*📍 AVISO: MENSAGEM RECEBIDA PELO SITE DAHER CLÍNICA*%0A%0A`;
             message += `Olá! Acessei o site da clínica e preenchi o formulário de contato:%0A%0A`;
@@ -342,7 +345,7 @@
             if (email) message += `*E-mail:* ${encodeURIComponent(email)}%0A`;
             message += `*Especialidade:* ${encodeURIComponent(especialidade)}%0A`;
             if (mensagem) message += `*Mensagem:* ${encodeURIComponent(mensagem)}%0A`;
-            message += `%0A*(Essa mensagem foi gerada automaticamente pelo site)*`;
+            message += `%0A*(Auditoria: Usuário nº ${userCount}, em ${today}, via ${isMobileStr}, formulário do site)*`;
 
             window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
             
@@ -626,23 +629,54 @@
 
 })();
 /* ============================================================
-   12. WHATSAPP CLICK TRACKING
+/* ============================================================
+   12. WHATSAPP CLICK TRACKING E MENSAGENS DINAMICAS
    ============================================================ */
 document.addEventListener('DOMContentLoaded', function() {
     const waLinks = document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"]');
     
     waLinks.forEach(function(link) {
+        // Ignorar se for um link de compartilhamento (ex: share no blog)
+        if (link.classList.contains('share-btn') || link.classList.contains('share-mini')) return;
+
+        const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
+        const userCount = window.daherData?.userCount || 'XX';
+        const today = new Date().toLocaleDateString('pt-BR');
+        
+        let sourceName = 'link geral';
+        if (link.closest('.whatsapp-float')) {
+            sourceName = 'botão flutuante';
+        } else if (link.closest('.site-footer')) {
+            sourceName = 'ícone do rodapé';
+        } else if (link.closest('.contact-info')) {
+            sourceName = 'página de contato';
+        }
+
+        let dynamicMsg = `*📍 AVISO: MENSAGEM RECEBIDA PELO SITE DAHER CLÍNICA*%0A%0A`;
+        dynamicMsg += `Olá! Acessei o site da clínica e gostaria de entrar em contato.%0A%0A`;
+        dynamicMsg += `*(Auditoria: Usuário nº ${userCount}, em ${today}, via ${isMobile}, ${sourceName})*`;
+        
+        // Atualiza o href com a mensagem dinmica
+        try {
+            const url = new URL(link.href);
+            url.searchParams.set('text', decodeURIComponent(dynamicMsg));
+            link.href = url.toString();
+        } catch(e) {
+            // fallback
+            let baseHref = link.href.split('?')[0];
+            link.href = `${baseHref}?text=${dynamicMsg}`;
+        }
+
         link.addEventListener('click', function() {
             // Check if admin-ajax is available via local data
             let ajaxUrl = (typeof daherData !== 'undefined' && daherData.ajaxUrl) ? daherData.ajaxUrl : '/wp-admin/admin-ajax.php';
             ajaxUrl += '?action=track_wa_click&_nocache=' + new Date().getTime();
             
-            const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
             // Send beacon or fetch in background
             const data = new FormData();
             data.append('action', 'track_wa_click');
             data.append('device', isMobile);
-            data.append('source', 'button_link');
+            data.append('source', sourceName === 'botão flutuante' ? 'floating' : 'button_link');
             
             // Registra Conversão no Google Ads
             if (typeof gtag === 'function') {

@@ -85,6 +85,10 @@ class WhatsApp_Tracker implements Tracker_Interface {
             wp_cache_delete($option_name, 'options');
         }
         
+        // Increment global cached total
+        \ = \->get_overall_total();
+        update_option('daher_wa_clicks_total', \ + 1, false);
+        
         return $data;
     }
 
@@ -106,6 +110,31 @@ class WhatsApp_Tracker implements Tracker_Interface {
     /**
      * @inheritDoc
      */
+    /**
+     * Get overall total clicks (cached for performance)
+     */
+    public function get_overall_total(): int {
+        $total = get_option('daher_wa_clicks_total', false);
+        if ($total === false) {
+            // Calculate from history
+            $results = $this->db->get_results("SELECT option_value FROM {$this->db->options} WHERE option_name LIKE 'daher_wa_clicks_%'");
+            $total = 0;
+            if (!empty($results)) {
+                foreach ($results as $row) {
+                    $raw_val = $row->option_value;
+                    $data_obj = json_decode($raw_val, true);
+                    if (is_array($data_obj) && isset($data_obj['total'])) {
+                        $total += (int)$data_obj['total'];
+                    } else {
+                        $total += (int)$raw_val;
+                    }
+                }
+            }
+            update_option('daher_wa_clicks_total', $total, false);
+        }
+        return (int) $total;
+    }
+    
     public function get_all_months(): array {
         $results = $this->db->get_results("SELECT option_name, option_value FROM {$this->db->options} WHERE option_name LIKE 'daher_wa_clicks_%' ORDER BY option_name DESC");
         

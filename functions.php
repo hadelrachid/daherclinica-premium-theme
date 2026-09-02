@@ -2,7 +2,7 @@
 // functions.php - Apenas carrega os módulos essenciais
 if (!defined('ABSPATH')) exit;
 
-define('DAHER_THEME_VERSION', '2.6.9');
+define('DAHER_THEME_VERSION', '2.7.0');
 define('DAHER_THEME_DIR', get_template_directory());
 define('DAHER_THEME_URI', get_template_directory_uri());
 
