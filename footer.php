@@ -52,7 +52,7 @@
                             $whatsapp_clean = preg_replace('/[^0-9]/', '', $whatsapp_options['whatsapp_number'] ?? '5521977667676');
                             if ($whatsapp_clean) : 
                             ?>
-                                <a href="https://wa.me/<?php echo esc_attr($whatsapp_clean); ?>" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                                <a href="https://wa.me/<?php echo esc_attr($whatsapp_clean); ?>?text=<?php echo urlencode('Olá! Acessei o site da clínica e gostaria de entrar em contato.'); ?>" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
                             <?php endif; ?>
@@ -118,7 +118,7 @@
         }
         ?>
         <div class="whatsapp-float">
-            <a href="https://wa.me/<?php echo esc_attr($whatsapp_clean); ?>" target="_blank" class="whatsapp-btn" aria-label="<?php _e('Fale conosco pelo WhatsApp', 'daherclinica'); ?>">
+            <a href="https://wa.me/<?php echo esc_attr($whatsapp_clean); ?>?text=<?php echo urlencode('Olá! Acessei o site da clínica e gostaria de entrar em contato.'); ?>" target="_blank" class="whatsapp-btn" aria-label="<?php _e('Fale conosco pelo WhatsApp', 'daherclinica'); ?>">
                 <i class="fab fa-whatsapp" aria-hidden="true"></i>
                 <span class="whatsapp-tooltip"><?php _e('Fale conosco', 'daherclinica'); ?></span>
             </a>

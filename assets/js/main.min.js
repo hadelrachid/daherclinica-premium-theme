@@ -335,13 +335,14 @@
 
             const whatsappNumber = window.daherData?.whatsappNumber || '5521977667676';
 
-            let message = `*NOVO AGENDAMENTO - Daher Clínica*%0A%0A`;
+            let message = `*📍 AVISO: MENSAGEM RECEBIDA PELO SITE DAHER CLÍNICA*%0A%0A`;
+            message += `Olá! Acessei o site da clínica e preenchi o formulário de contato:%0A%0A`;
             message += `*Nome:* ${encodeURIComponent(nome)}%0A`;
             message += `*Telefone:* ${encodeURIComponent(telefone)}%0A`;
             if (email) message += `*E-mail:* ${encodeURIComponent(email)}%0A`;
             message += `*Especialidade:* ${encodeURIComponent(especialidade)}%0A`;
             if (mensagem) message += `*Mensagem:* ${encodeURIComponent(mensagem)}%0A`;
-            message += `%0A*Origem:* ${encodeURIComponent(window.location.href)}`;
+            message += `%0A*(Essa mensagem foi gerada automaticamente pelo site)*`;
 
             window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
             

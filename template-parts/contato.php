@@ -54,7 +54,7 @@ if (!defined('ABSPATH')) {
                             ?>
                             <?php _e('Telefone:', 'daherclinica'); ?> <?php echo esc_html($phone_display); ?><br>
                             <?php _e('WhatsApp:', 'daherclinica'); ?> 
-                            <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $whatsapp_raw); ?>" target="_blank">
+                            <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $whatsapp_raw); ?>?text=<?php echo urlencode('Olá! Acessei o site da clínica e gostaria de entrar em contato.'); ?>" target="_blank">
                                 <?php echo esc_html($whatsapp_display); ?>
                             </a>
                         </p>
