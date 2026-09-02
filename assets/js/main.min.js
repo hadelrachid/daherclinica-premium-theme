@@ -22,6 +22,8 @@
     // 1. EFEITO PARALAXE NO FUNDO DOURADO
     // ============================================================
     function initParallaxBackground() {
+        if (window.innerWidth <= 768) return;
+        
         let ticking = false;
         window.addEventListener('scroll', () => {
             if (!ticking) {
@@ -41,6 +43,8 @@
     // 2. EFEITO PARALAXE NO HERO
     // ============================================================
     function initHeroParallax() {
+        if (window.innerWidth <= 768) return;
+        
         // Seleciona todos os heros (Home e Internas)
         const heroes = document.querySelectorAll('.hero, .page-hero');
 
@@ -54,7 +58,7 @@
                             const scrolled = window.pageYOffset;
                             const rate = scrolled * 0.3;
                             if (scrolled < hero.offsetHeight) {
-                                heroBg.style.transform = `translateY(${rate}px)`;
+                                heroBg.style.transform = `translate3d(0, ${rate}px, 0)`;
                             }
                             ticking = false;
                         });

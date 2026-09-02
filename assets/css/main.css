@@ -3387,3 +3387,7 @@ section[id] {
         width: 80vw;
     }
 }
+.hero-bg, .page-hero-bg {
+    will-change: transform;
+    transform: translateZ(0); /* Forçar aceleração de hardware (GPU) */
+}
