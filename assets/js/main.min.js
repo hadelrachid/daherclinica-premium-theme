@@ -483,24 +483,11 @@
     // ============================================================
     // 9. PRIVACY NOTICE (LGPD)
     // ============================================================
-    function initPrivacyNotice() {
+        function initPrivacyNotice() {
         const privacyNotice = document.getElementById('privacyNotice');
         if (!privacyNotice) return;
 
-        // Verifica se o usuário já aceitou
-        const privacyAccepted = localStorage.getItem('daher_privacy_accepted');
-        if (privacyAccepted === 'true') {
-            privacyNotice.style.display = 'none';
-            return;
-        }
-
-        // Mostra o banner após 1 segundo
-        setTimeout(() => {
-            privacyNotice.style.display = 'block';
-            setTimeout(() => privacyNotice.classList.add('show'), 10);
-        }, 1000);
-
-        // Botão Aceitar
+        // Botão Aceitar (Sempre anexa o listener)
         const acceptBtn = document.getElementById('acceptPrivacy');
         if (acceptBtn) {
             acceptBtn.addEventListener('click', () => {
@@ -510,13 +497,25 @@
             });
         }
 
-        // Botão Recusar - esconde apenas temporariamente
+        // Botão Recusar (Sempre anexa o listener)
         const rejectBtn = document.getElementById('rejectPrivacy');
         if (rejectBtn) {
             rejectBtn.addEventListener('click', () => {
                 privacyNotice.classList.remove('show');
                 setTimeout(() => { privacyNotice.style.display = 'none'; }, 500);
             });
+        }
+
+        // Verifica se o usuário já aceitou
+        const privacyAccepted = localStorage.getItem('daher_privacy_accepted');
+        if (privacyAccepted === 'true') {
+            privacyNotice.style.display = 'none';
+        } else {
+            // Mostra o banner após 1 segundo
+            setTimeout(() => {
+                privacyNotice.style.display = 'block';
+                setTimeout(() => privacyNotice.classList.add('show'), 10);
+            }, 1000);
         }
     }
 
@@ -762,6 +761,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     elementsToFade.forEach(el => observer.observe(el));
 });
+
 
 
 
