@@ -23,9 +23,8 @@ class WhatsApp_Tracker implements Tracker_Interface {
     /**
      * @inheritDoc
      */
-    public function track_click(string $device, string $source): array {
+    public function track_click(string $device, string $source, bool $is_bot = false): array {
         // Correção de Bug: wp_date garante que o mês bate com o fuso do WP
-        // ao contrário de date('Y_m') que usa o fuso do servidor.
         $current_month = function_exists('wp_date') ? wp_date('Y_m') : current_time('Y_m');
         $option_name = 'daher_wa_clicks_' . $current_month;
         
@@ -34,7 +33,7 @@ class WhatsApp_Tracker implements Tracker_Interface {
         );
         
         if ($current === null) {
-            $data = ['total' => 0, 'mobile' => 0, 'desktop' => 0, 'sources' => [], 'logs' => []];
+            $data = ['total' => 0, 'mobile' => 0, 'desktop' => 0, 'bots' => 0, 'sources' => [], 'logs' => []];
         } else {
             $data = json_decode($current, true);
             if (!is_array($data)) {
@@ -42,32 +41,36 @@ class WhatsApp_Tracker implements Tracker_Interface {
                     'total' => (int)$current, 
                     'mobile' => 0, 
                     'desktop' => 0, 
+                    'bots' => 0,
                     'sources' => ['legacy' => (int)$current],
                     'logs' => []
                 ];
             }
-            if (!isset($data['logs'])) {
-                $data['logs'] = [];
+            if (!isset($data['logs'])) $data['logs'] = [];
+            if (!isset($data['bots'])) $data['bots'] = 0;
+            if (!isset($data['sources'])) $data['sources'] = [];
+        }
+        
+        if ($is_bot) {
+            $data['bots']++;
+        } else {
+            $data['total']++;
+            
+            if ($device === 'mobile' || $device === 'desktop') {
+                $data[$device] = isset($data[$device]) ? $data[$device] + 1 : 1;
             }
-        }
-        
-        $data['total'] = isset($data['total']) ? $data['total'] + 1 : 1;
-        
-        if ($device === 'mobile' || $device === 'desktop') {
-            $data[$device] = isset($data[$device]) ? $data[$device] + 1 : 1;
-        }
-        
-        if (!isset($data['sources'])) $data['sources'] = [];
-        $data['sources'][$source] = isset($data['sources'][$source]) ? $data['sources'][$source] + 1 : 1;
-        
-        $data['logs'][] = [
-            'time'   => current_time('mysql'),
-            'device' => $device,
-            'source' => $source
-        ];
-        
-        if (count($data['logs']) > 1000) {
-            array_shift($data['logs']);
+            
+            $data['sources'][$source] = isset($data['sources'][$source]) ? $data['sources'][$source] + 1 : 1;
+            
+            $data['logs'][] = [
+                'time'   => current_time('mysql'),
+                'device' => $device,
+                'source' => $source
+            ];
+            
+            if (count($data['logs']) > 1000) {
+                array_shift($data['logs']);
+            }
         }
         
         $json_value = wp_json_encode($data);
@@ -141,13 +144,14 @@ class WhatsApp_Tracker implements Tracker_Interface {
                 $clicks = (int) ($data_obj['total'] ?? 0);
                 $mobile = (int) ($data_obj['mobile'] ?? 0);
                 $desktop = (int) ($data_obj['desktop'] ?? 0);
+                $bots = (int) ($data_obj['bots'] ?? 0);
                 $src_form = (int) ($data_obj['sources']['form'] ?? 0);
                 $src_floating = (int) ($data_obj['sources']['floating'] ?? 0);
                 $src_link = (int) ($data_obj['sources']['button_link'] ?? 0);
                 $logs = $data_obj['logs'] ?? [];
             } else {
                 $clicks = (int) $raw_val;
-                $mobile = 0; $desktop = 0; $src_form = 0; $src_floating = 0; $src_link = 0; $logs = [];
+                $mobile = 0; $desktop = 0; $bots = 0; $src_form = 0; $src_floating = 0; $src_link = 0; $logs = [];
             }
 
             $parts = explode('_', str_replace('daher_wa_clicks_', '', $row->option_name));
@@ -168,6 +172,7 @@ class WhatsApp_Tracker implements Tracker_Interface {
                 'clicks'   => $clicks,
                 'mobile'   => $mobile,
                 'desktop'  => $desktop,
+                'bots'     => $bots,
                 'src_form' => $src_form,
                 'src_link' => $src_floating + $src_link,
                 'logs'     => $logs
@@ -177,3 +182,5 @@ class WhatsApp_Tracker implements Tracker_Interface {
         return $processed_data;
     }
 }
+
+

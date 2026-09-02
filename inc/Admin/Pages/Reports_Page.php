@@ -88,6 +88,9 @@ class Reports_Page implements Admin_Page_Interface {
             if ($item['src_form'] > 0 || $item['src_link'] > 0) {
                 echo '<span><span class="dashicons dashicons-email" style="font-size: 16px; margin-top: -2px;"></span> Formulário: ' . $item['src_form'] . ' | <span class="dashicons dashicons-whatsapp" style="font-size: 16px; margin-top: -2px;"></span> Outros Botões: ' . $item['src_link'] . '</span>';
             }
+            if (!empty($item['bots']) && $item['bots'] > 0) {
+                echo '<span style="color: #ef4444;" title="Bloqueados para não sujar sua métrica"><span class="dashicons dashicons-shield" style="font-size: 16px; margin-top: -2px;"></span> Robôs Bloqueados: ' . $item['bots'] . '</span>';
+            }
             echo '</div>';
             
             echo '<div style="margin-top: 8px;">';

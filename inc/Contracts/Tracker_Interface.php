@@ -15,9 +15,10 @@ interface Tracker_Interface {
      *
      * @param string $device Dispositivo (mobile/desktop).
      * @param string $source Origem do clique (form, button_link).
+     * @param bool $is_bot Se o clique foi identificado como bot.
      * @return array Dados atualizados do evento.
      */
-    public function track_click(string $device, string $source): array;
+    public function track_click(string $device, string $source, bool $is_bot = false): array;
 
     /**
      * Retorna os dados consolidados de um mês específico.
