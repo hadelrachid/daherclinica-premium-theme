@@ -307,33 +307,45 @@ if (is_admin()) {
 }
 
 /**
- * Obtém os posts recentes do blog para o carrossel (SOLID: SRP)
+ * Obtém os posts do blog de forma aleatória, renovando a cada 5 minutos
+ * para não destruir a performance do banco de dados (Uso de Transients).
  */
 function daherclinica_get_recent_posts($limit = 6) {
-    $args = [
-        'post_type'      => 'post',
-        'posts_per_page' => $limit,
-        'post_status'    => 'publish',
-        'ignore_sticky_posts' => true
-    ];
+    $transient_key = 'daher_carousel_posts_' . $limit;
+    $posts_data = get_transient($transient_key);
     
-    $query = new WP_Query($args);
-    $posts_data = [];
-    
-    if ($query->have_posts()) {
-        while ($query->have_posts()) {
-            $query->the_post();
-            $posts_data[] = [
-                'id'        => get_the_ID(),
-                'title'     => get_the_title(),
-                'excerpt'   => wp_trim_words(get_the_excerpt(), 15, '...'),
-                'permalink' => get_permalink(),
-                'thumbnail' => has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'medium_large') : '',
-                'date'      => get_the_date()
-            ];
+    // Se o cache expirou (passou 5 minutos) ou não existe, faz a query no banco
+    if ($posts_data === false) {
+        $args = [
+            'post_type'           => 'post',
+            'posts_per_page'      => $limit,
+            'post_status'         => 'publish',
+            'ignore_sticky_posts' => true,
+            'orderby'             => 'rand' // Aleatório
+        ];
+        
+        $query = new WP_Query($args);
+        $posts_data = [];
+        
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                $posts_data[] = [
+                    'id'        => get_the_ID(),
+                    'title'     => get_the_title(),
+                    'excerpt'   => wp_trim_words(get_the_excerpt(), 15, '...'),
+                    'permalink' => get_permalink(),
+                    'thumbnail' => has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'medium_large') : '',
+                    'date'      => get_the_date()
+                ];
+            }
+            wp_reset_postdata();
         }
-        wp_reset_postdata();
+        
+        // Salva na memória do servidor por 5 minutos (300 segundos)
+        set_transient($transient_key, $posts_data, 5 * MINUTE_IN_SECONDS);
     }
     
     return $posts_data;
 }
+
