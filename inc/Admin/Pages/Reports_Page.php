@@ -109,7 +109,7 @@ class Reports_Page implements Admin_Page_Interface {
                         $time = date('d/m/Y \à\s H:i:s', strtotime($time));
                     }
                     $device = $log['device'] === 'mobile' ? '<span class="dashicons dashicons-smartphone" style="color:#64748b;"></span> Mobile' : ($log['device'] === 'desktop' ? '<span class="dashicons dashicons-desktop" style="color:#64748b;"></span> Computador' : 'Desconhecido');
-                    $source = $log['source'] === 'form' ? 'Formulário' : ($log['source'] === 'button_link' ? 'Botão Flutuante / Link' : 'Desconhecido');
+                    $source = $log['source'] === 'form' ? 'Formulário' : ($log['source'] === 'button_link' ? 'Botão Flutuante / Link' : ($log['source'] === 'floating' ? 'Botão Flutuante' : 'Desconhecido'));
                     
                     echo '<tr>';
                     echo '<td style="padding: 8px;"><strong>' . esc_html($time) . '</strong></td>';
