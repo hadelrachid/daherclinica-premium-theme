@@ -114,6 +114,13 @@
                             <?php if ($priv_id || $term_id) : ?>
                                 <li><a href="#" class="open-privacy-notice"><?php _e('LGPD', 'daherclinica'); ?></a></li>
                             <?php endif; ?>
+                            
+                            <?php 
+                            $clinica_opts = get_option('daher_clinica_options', []);
+                            if (!empty($clinica_opts['saas_area_restrita'])) : 
+                            ?>
+                                <li><a href="<?php echo esc_url($clinica_opts['saas_area_restrita']); ?>" target="_blank" style="color: var(--primary); font-weight: bold;"><i class="fas fa-lock" style="margin-right: 5px;"></i><?php _e('Área Restrita', 'daherclinica'); ?></a></li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                     

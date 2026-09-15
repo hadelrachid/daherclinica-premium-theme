@@ -167,7 +167,9 @@
                 $agendar_url = !empty($clinica_opts['saas_agendamento']) ? $clinica_opts['saas_agendamento'] : 'https://agendamento.daherclinica.com/agendamento';
                         $agendar_label = !empty($clinica_opts['saas_agendamento_label']) ? $clinica_opts['saas_agendamento_label'] : 'Agendamento Online';
                 ?>
-                
+                <a href="<?php echo esc_url($login_url); ?>" target="_blank" class="btn btn-outline" style="margin-left: 15px; padding: 8px 15px; font-size: 14px;">
+                    <i class="fas fa-lock"></i> <?php _e('Área Restrita', 'daherclinica'); ?>
+                </a>
             </nav>
             
             <!-- BOTÃO HAMBURGUER (apenas ícone) -->
@@ -206,7 +208,9 @@
             ?>
             
             <div style="margin: 20px 0; text-align: center;">
-                
+                <a href="<?php echo esc_url($login_url); ?>" target="_blank" class="btn btn-outline" style="width: 90%;">
+                    <i class="fas fa-lock"></i> <?php _e('Área Restrita', 'daherclinica'); ?>
+                </a>
             </div>
             
             <div class="mobile-divider"></div>
