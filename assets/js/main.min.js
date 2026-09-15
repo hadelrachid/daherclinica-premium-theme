@@ -715,7 +715,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = new FormData();
             data.append('action', 'track_wa_click');
             data.append('device', isMobile);
-            data.append('source', sourceName === 'botão flutuante' ? 'floating' : 'button_link');
+            data.append('source', isAgendamento ? 'Agendamento Online' : (sourceName === 'botão flutuante' ? 'floating' : 'button_link'));
             
             // Registra Conversão no Google Ads
             if (typeof gtag === 'function') {

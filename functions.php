@@ -359,3 +359,47 @@ function daherclinica_get_recent_posts($limit = 6) {
 
 
 
+
+// ============================================================
+// SMTP E NOTIFICACOES
+// ============================================================
+
+function daherclinica_notify_click($device, $source) {
+    $to = 'clinicadahermr@gmail.com';
+    $subject = 'Novo Clique no Site Daher Clínica';
+    $message = "<h2>Novo Clique Registrado</h2>";
+    $message .= "<p><strong>Dispositivo:</strong> " . esc_html($device) . "</p>";
+    $message .= "<p><strong>Origem/Botão:</strong> " . esc_html($source) . "</p>";
+    $message .= "<p><strong>Horário:</strong> " . current_time('mysql') . "</p>";
+    
+    $headers = ['Content-Type: text/html; charset=UTF-8'];
+    wp_mail($to, $subject, $message, $headers);
+}
+
+// Intercepta os cliques e dispara email antes da acao padrao (prioridade 9)
+add_action('wp_ajax_track_wa_click', function() {
+    if(isset($_POST['device']) && isset($_POST['source'])) {
+        daherclinica_notify_click(sanitize_text_field($_POST['device']), sanitize_text_field($_POST['source']));
+    }
+}, 9);
+
+add_action('wp_ajax_nopriv_track_wa_click', function() {
+    if(isset($_POST['device']) && isset($_POST['source'])) {
+        daherclinica_notify_click(sanitize_text_field($_POST['device']), sanitize_text_field($_POST['source']));
+    }
+}, 9);
+
+add_action('phpmailer_init', function($phpmailer) {
+    $opts = get_option('daher_smtp_options', []);
+    if (!empty($opts['smtp_host']) && !empty($opts['smtp_user']) && !empty($opts['smtp_pass'])) {
+        $phpmailer->isSMTP();
+        $phpmailer->Host       = $opts['smtp_host'];
+        $phpmailer->SMTPAuth   = true;
+        $phpmailer->Port       = absint($opts['smtp_port']);
+        $phpmailer->Username   = $opts['smtp_user'];
+        $phpmailer->Password   = $opts['smtp_pass'];
+        $phpmailer->SMTPSecure = $opts['smtp_secure'];
+        $phpmailer->From       = $opts['smtp_user'];
+        $phpmailer->FromName   = 'Daher Clínica';
+    }
+});

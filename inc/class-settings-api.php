@@ -1135,6 +1135,41 @@ class SettingsAPI {
         return $output;
     }
     
+        private function register_smtp_options() {
+        register_setting('daher_smtp_group', 'daher_smtp_options', [$this, 'sanitize_smtp']);
+        
+        add_settings_section(
+            'daher_smtp_section',
+            '📧 Configurações de Servidor de E-mail (SMTP)',
+            null,
+            'daher-smtp'
+        );
+        
+        add_settings_field('smtp_host', 'Host do Servidor SMTP', [$this, 'text_field_callback'], 'daher-smtp', 'daher_smtp_section', ['id' => 'smtp_host', 'placeholder' => 'smtp.hostinger.com']);
+        add_settings_field('smtp_port', 'Porta SMTP', [$this, 'text_field_callback'], 'daher-smtp', 'daher_smtp_section', ['id' => 'smtp_port', 'placeholder' => '465']);
+        add_settings_field('smtp_secure', 'Criptografia (SSL/TLS)', [$this, 'text_field_callback'], 'daher-smtp', 'daher_smtp_section', ['id' => 'smtp_secure', 'placeholder' => 'ssl']);
+        add_settings_field('smtp_user', 'Usuário do E-mail', [$this, 'text_field_callback'], 'daher-smtp', 'daher_smtp_section', ['id' => 'smtp_user', 'placeholder' => 'clinica@daherclinica.com']);
+        add_settings_field('smtp_pass', 'Senha do E-mail', [$this, 'password_field_callback'], 'daher-smtp', 'daher_smtp_section', ['id' => 'smtp_pass', 'placeholder' => 'Sua senha segura']);
+    }
+
+    public function sanitize_smtp($input) {
+        $output = [];
+        $output['smtp_host'] = sanitize_text_field($input['smtp_host'] ?? '');
+        $output['smtp_port'] = absint($input['smtp_port'] ?? 465);
+        $output['smtp_secure'] = sanitize_text_field($input['smtp_secure'] ?? 'ssl');
+        $output['smtp_user'] = sanitize_text_field($input['smtp_user'] ?? '');
+        $output['smtp_pass'] = sanitize_text_field($input['smtp_pass'] ?? '');
+        return $output;
+    }
+
+    public function password_field_callback($args) {
+        $options = $this->get_options_by_context($args['id']);
+        $value = isset($options[$args['id']]) ? $options[$args['id']] : '';
+        $placeholder = isset($args['placeholder']) ? $args['placeholder'] : '';
+        $option_name = $this->get_option_name($args['id']);
+        echo '<input type="password" name="' . esc_attr($option_name) . '[' . esc_attr($args['id']) . ']" value="' . esc_attr($value) . '" class="regular-text" placeholder="' . esc_attr($placeholder) . '" />';
+    }
+
     public function sanitize_saas($input) {
         $output = [];
         $output['saas_area_restrita'] = esc_url_raw($input['saas_area_restrita'] ?? '');
