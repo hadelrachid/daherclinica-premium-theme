@@ -1291,6 +1291,9 @@ class SettingsAPI {
                 <a href="?page=daher-settings&tab=media" class="nav-tab <?php echo $active_tab == 'media' ? 'nav-tab-active' : ''; ?>">
                     🖼️ Mídia & SEO
                 </a>
+                  <a href="?page=daher-settings&tab=smtp" class="nav-tab <?php echo $active_tab == 'smtp' ? 'nav-tab-active' : ''; ?>">
+                      📧 E-mail (SMTP)
+                  </a>
                   <a href="?page=daher-settings&tab=saas" class="nav-tab <?php echo $active_tab == 'saas' ? 'nav-tab-active' : ''; ?>">
                       🔗 Integração SaaS
                   </a>
