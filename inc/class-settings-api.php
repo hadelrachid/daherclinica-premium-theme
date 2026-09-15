@@ -736,7 +736,7 @@ class SettingsAPI {
         // ABA 9: MÍDIA & SEO
         // ============================================
         $this->register_media_options();
-
+        $this->register_saas_options();
     }
     
     /**
@@ -806,7 +806,9 @@ class SettingsAPI {
             'daher_address' => 'Estrada dos Bandeirantes, 8591 - Sala 308, Rio de Janeiro - RJ',
             'daher_hours' => 'Segunda a Sexta: 09:00 - 18:00',
             'daher_phone' => '(21) 2415-9263',
-            'daher_email' => 'contato@daherclinica.com'
+            'daher_email' => 'contato@daherclinica.com',
+            'saas_area_restrita' => 'https://agendamento.daherclinica.com/login',
+            'saas_agendamento' => 'https://agendamento.daherclinica.com/agendamento'
         ]);
     }
     
@@ -1086,12 +1088,53 @@ class SettingsAPI {
     // SANITIZAÇÃO
     // ============================================
     
+    private function register_saas_options() {
+        register_setting('daher_saas_group', 'daher_clinica_options', [$this, 'sanitize_clinica']);
+        
+        add_settings_section(
+            'daher_saas_section',
+            '⚙️ Configurações do CockPit (SaaS)',
+            null,
+            'daher-saas'
+        );
+        
+        add_settings_field(
+            'saas_area_restrita',
+            'Link da Área Restrita (CockPit)',
+            [$this, 'text_field_callback'],
+            'daher-saas',
+            'daher_saas_section',
+            ['id' => 'saas_area_restrita', 'placeholder' => 'https://agendamento.daherclinica.com/login']
+        );
+        
+        add_settings_field(
+            'saas_agendamento',
+            'Link do Agendamento Online',
+            [$this, 'text_field_callback'],
+            'daher-saas',
+            'daher_saas_section',
+            ['id' => 'saas_agendamento', 'placeholder' => 'https://agendamento.daherclinica.com/agendamento']
+        );
+        
+        add_settings_field(
+            'saas_agendamento_label',
+            'Texto do Botão de Agendamento',
+            [$this, 'text_field_callback'],
+            'daher-saas',
+            'daher_saas_section',
+            ['id' => 'saas_agendamento_label', 'placeholder' => 'Agendamento Online']
+        );
+    }
+    
     public function sanitize_clinica($input) {
         $output = [];
         $output['daher_address'] = sanitize_textarea_field($input['daher_address'] ?? '');
         $output['daher_hours'] = sanitize_text_field($input['daher_hours'] ?? '');
         $output['daher_phone'] = sanitize_text_field($input['daher_phone'] ?? '');
         $output['daher_email'] = sanitize_email($input['daher_email'] ?? '');
+        $output['saas_area_restrita'] = esc_url_raw($input['saas_area_restrita'] ?? '');
+        $output['saas_agendamento'] = esc_url_raw($input['saas_agendamento'] ?? '');
+        $output['saas_agendamento_label'] = sanitize_text_field($input['saas_agendamento_label'] ?? '');
         return $output;
     }
     
@@ -1208,6 +1251,9 @@ class SettingsAPI {
                 <a href="?page=daher-settings&tab=media" class="nav-tab <?php echo $active_tab == 'media' ? 'nav-tab-active' : ''; ?>">
                     🖼️ Mídia & SEO
                 </a>
+                  <a href="?page=daher-settings&tab=saas" class="nav-tab <?php echo $active_tab == 'saas' ? 'nav-tab-active' : ''; ?>">
+                      🔗 Integração SaaS
+                  </a>
             </h2>
             
             <form method="post" action="options.php">
@@ -1258,6 +1304,11 @@ class SettingsAPI {
                         do_settings_sections('daher-media');
                         submit_button('Salvar Mídia & SEO');
                         break;
+                      case 'saas':
+                          settings_fields('daher_saas_group');
+                          do_settings_sections('daher-saas');
+                          submit_button('Salvar Integração SaaS');
+                          break;
                     case 'legal':
                         settings_fields('daher_legal_group');
                         do_settings_sections('daher-legal');

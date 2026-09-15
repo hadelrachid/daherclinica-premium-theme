@@ -4,6 +4,9 @@
             $privacidade_page = get_page_by_path('privacidade');
             $termos_page = get_page_by_path('termos-de-uso');
         ?>
+        
+        <?php get_template_part('template-parts/carousel-planos'); ?>
+
         <!-- Footer -->
         <footer class="footer">
             <div class="container">

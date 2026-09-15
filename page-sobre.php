@@ -390,11 +390,16 @@ $especialidades_url = esc_url(home_url('/especialidades'));
                 <p><?php _e('Venha conhecer a Daher Clínica e descubra um cuidado médico que faz diferença na sua saúde e qualidade de vida.', 'daherclinica'); ?></p>
             </div>
             
-            <div class="cta-buttons">
-                <a href="<?php echo esc_url($contato_url . '#contactForm'); ?>" class="btn btn-primary btn-lg">
-                    <i class="fas fa-calendar-check"></i> <?php _e('Agendar Consulta', 'daherclinica'); ?>
-                </a>
-            </div>
+            <?php
+              $clinica_opts = get_option('daher_clinica_options', []);
+              $agendar_url = !empty($clinica_opts['saas_agendamento']) ? $clinica_opts['saas_agendamento'] : 'https://agendamento.daherclinica.com/agendamento';
+              $agendar_label = !empty($clinica_opts['saas_agendamento_label']) ? $clinica_opts['saas_agendamento_label'] : 'Agendamento Online';
+              ?>
+              <div class="cta-buttons">
+                  <a href="<?php echo esc_url($agendar_url); ?>" class="btn btn-primary btn-lg">
+                      <i class="fas fa-calendar-check"></i> <?php echo esc_html($agendar_label); ?>
+                  </a>
+              </div>
         </div>
     </section>
 

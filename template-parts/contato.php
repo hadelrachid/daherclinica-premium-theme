@@ -120,75 +120,25 @@ if (!defined('ABSPATH')) {
             </div>
 
             <div class="contact-form-wrapper" id="agendamento">
-                <form class="contact-form" id="contactForm">
-                    <h3><?php _e('Solicitar Agendamento', 'daherclinica'); ?></h3>
+<?php
+    $clinica_opts = get_option('daher_clinica_options', []);
+    $agendar_url = !empty($clinica_opts['saas_agendamento']) ? $clinica_opts['saas_agendamento'] : 'https://agendamento.daherclinica.com/agendamento';
+    $agendar_label = !empty($clinica_opts['saas_agendamento_label']) ? $clinica_opts['saas_agendamento_label'] : 'Agendamento Online';
+?>
+                
                     
-                    <div class="form-group">
-                        <label for="nome"><?php _e('Nome Completo', 'daherclinica'); ?> *</label>
-                        <input type="text" id="nome" name="nome" placeholder="<?php _e('Digite seu nome completo', 'daherclinica'); ?>" required>
+                    
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 600px; margin: 0 auto; text-align: center; padding: 40px 20px; background: #f9f9f9; border-radius: 12px; border: 2px dashed #C5A880; box-sizing: border-box;">
+                        <i class="fas fa-calendar-check" style="font-size: 48px; color: #C5A880; margin-bottom: 20px;"></i>
+                        <h3 style="margin-bottom: 15px; color: #1A365D;"><?php echo esc_html($agendar_label); ?></h3>
+                        <p style="margin-bottom: 30px; color: #666;">Evite filas e esperas. Escolha o melhor dia e horário para você diretamente em nosso sistema seguro.</p>
+                        
+                        <a href="<?php echo esc_url($agendar_url); ?>" class="btn btn-primary btn-agendar-header" style="font-size: 18px; padding: 15px 30px; border-radius: 30px; box-shadow: 0 10px 20px rgba(197, 168, 128, 0.3); width: 100%; max-width: 300px; display: inline-block; white-space: normal; line-height: 1.3;">
+                            <i class="fas fa-rocket"></i> <?php echo esc_html($agendar_label); ?>
+                        </a>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="telefone"><?php _e('WhatsApp / Telefone', 'daherclinica'); ?> *</label>
-                        <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email"><?php _e('E-mail', 'daherclinica'); ?></label>
-                        <input type="email" id="email" name="email" placeholder="seu@email.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="especialidade"><?php _e('Especialidade Desejada', 'daherclinica'); ?> *</label>
-                        <select id="especialidade" name="especialidade" required>
-                            <option value=""><?php _e('Selecione uma especialidade', 'daherclinica'); ?></option>
-                            <option value="vascular"><?php _e('Cirurgia Vascular', 'daherclinica'); ?></option>
-                            <option value="dermatologia"><?php _e('Dermatologia', 'daherclinica'); ?></option>
-                            <option value="clinica-geral"><?php _e('Clínica Geral', 'daherclinica'); ?></option>
-                            <option value="ambos"><?php _e('Ambas as especialidades', 'daherclinica'); ?></option>
-                            <option value="outros"><?php _e('Dúvidas / Outros', 'daherclinica'); ?></option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="mensagem"><?php _e('Mensagem', 'daherclinica'); ?></label>
-                        <textarea id="mensagem" name="mensagem" rows="4" placeholder="<?php _e('Descreva brevemente sua necessidade ou dúvida...', 'daherclinica'); ?>"></textarea>
-                    </div>
-                    
-                    <div class="form-group checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="privacy" required>
-                                                        <?php 
-                            $legal_opts = get_option('daher_legal_options', []);
-                            $priv_id = !empty($legal_opts['privacy_page']) ? $legal_opts['privacy_page'] : 0;
-                            $term_id = !empty($legal_opts['terms_page']) ? $legal_opts['terms_page'] : 0;
-                            ?>
-                            <span>
-                                <?php _e('Li e aceito a', 'daherclinica'); ?> 
-                                <?php if ($priv_id) : ?>
-                                    <a href="<?php echo get_permalink($priv_id); ?>" class="open-legal-modal"><?php _e('Política de Privacidade', 'daherclinica'); ?></a> 
-                                <?php else: ?>
-                                    <?php _e('Política de Privacidade', 'daherclinica'); ?> 
-                                <?php endif; ?>
-                                
-                                <?php _e('e os', 'daherclinica'); ?> 
-                                
-                                <?php if ($term_id) : ?>
-                                    <a href="<?php echo get_permalink($term_id); ?>" class="open-legal-modal"><?php _e('Termos de Uso', 'daherclinica'); ?></a> 
-                                <?php else: ?>
-                                    <?php _e('Termos de Uso', 'daherclinica'); ?> 
-                                <?php endif; ?>
-                                *
-                            </span>
-                        </label>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary btn-full">
-                        <?php _e('Enviar via WhatsApp', 'daherclinica'); ?>
-                    </button>
-                    
-                    <p class="form-note">* <?php _e('Campos obrigatórios | Seus dados estão seguros conosco', 'daherclinica'); ?></p>
-                </form>
+
+
             </div>
         </div>
     </div>

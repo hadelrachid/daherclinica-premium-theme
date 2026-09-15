@@ -52,8 +52,13 @@ $stat_team_label = $home_options['stat_team_label'] ?? 'Equipe Especializada';
                 <?php echo wp_kses_post($hero_subtitle); ?>
             </p>
             <div class="hero-buttons">
-                <a href="#contactForm" class="btn btn-primary btn-lg">
-                    <i class="fas fa-calendar-check"></i> <?php _e('Agendar Consulta', 'daherclinica'); ?>
+                <?php
+                $clinica_opts = get_option('daher_clinica_options', []);
+                $agendar_url = !empty($clinica_opts['saas_agendamento']) ? $clinica_opts['saas_agendamento'] : 'https://agendamento.daherclinica.com/agendamento';
+                        $agendar_label = !empty($clinica_opts['saas_agendamento_label']) ? $clinica_opts['saas_agendamento_label'] : 'Agendamento Online';
+                ?>
+                <a href="<?php echo esc_url($agendar_url); ?>" class="btn btn-primary btn-lg btn-agendar-header">
+                    <i class="fas fa-calendar-check"></i> <?php echo esc_html($agendar_label); ?>
                 </a>
                 <a href="#especialidades" class="btn btn-outline btn-lg">
                     <i class="fas fa-stethoscope"></i> <?php _e('Nossas Especialidades', 'daherclinica'); ?>

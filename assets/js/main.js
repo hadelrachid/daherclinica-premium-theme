@@ -771,3 +771,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
+
+    // TRACK ONLINE BOOKING CLICKS
+    const bookingBtns = document.querySelectorAll('.btn-agendar-header, .mobile-btn-agendar');
+    bookingBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (window.daherData && window.daherData.ajaxUrl) {
+                try {
+                    fetch(window.daherData.ajaxUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: 'action=daher_track_whatsapp_click&source=online_booking'
+                    });
+                } catch (e) {}
+            }
+        });
+    });

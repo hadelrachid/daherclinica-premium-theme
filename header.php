@@ -161,7 +161,13 @@
                     'fallback_cb'    => false,
                     'depth'          => 2,
                 ]);
+                
+                $clinica_opts = get_option('daher_clinica_options', []);
+                $login_url = !empty($clinica_opts['saas_area_restrita']) ? $clinica_opts['saas_area_restrita'] : 'https://agendamento.daherclinica.com/login';
+                $agendar_url = !empty($clinica_opts['saas_agendamento']) ? $clinica_opts['saas_agendamento'] : 'https://agendamento.daherclinica.com/agendamento';
+                        $agendar_label = !empty($clinica_opts['saas_agendamento_label']) ? $clinica_opts['saas_agendamento_label'] : 'Agendamento Online';
                 ?>
+                
             </nav>
             
             <!-- BOTÃO HAMBURGUER (apenas ícone) -->
@@ -180,13 +186,11 @@
         <div class="mobile-menu-inner">
             <!-- Botão Agendar no topo do menu mobile -->
             <div class="mobile-agendar-wrapper">
-                <a href="<?php echo esc_url(home_url('/#contactForm')); ?>" 
+                <a href="<?php echo esc_url($agendar_url); ?>" 
                    class="mobile-btn-agendar" 
-                   id="mobileAgendarBtn"
-                   aria-label="Agendar consulta pelo menu"
-                   data-home-url="<?php echo esc_url(home_url('/')); ?>">
+                   aria-label="Agendar consulta pelo menu">
                     <i class="fas fa-calendar-alt"></i>
-                    <span><?php _e('Agendar Consulta', 'daherclinica'); ?></span>
+                    <span><?php echo esc_html($agendar_label); ?></span>
                 </a>
             </div>
             
@@ -201,7 +205,11 @@
             ]);
             ?>
             
-                        <div class="mobile-divider"></div>
+            <div style="margin: 20px 0; text-align: center;">
+                
+            </div>
+            
+            <div class="mobile-divider"></div>
             
             <?php 
             $legal_opts = get_option('daher_legal_options', []);

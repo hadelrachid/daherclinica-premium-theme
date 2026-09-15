@@ -16,6 +16,7 @@ $modules = [
     'inc/assets.php',          // ✅ Enfileira APENAS main.css + main.js
     'inc/performance.php',     // Módulo de Otimização e Velocidade Nativa (Daher Speed)
     'inc/doctors.php',         // CPT Médicos
+    'inc/health-insurance.php',// CPT Planos de Saúde (Convênios)
 ];
 
 foreach ($modules as $module) {

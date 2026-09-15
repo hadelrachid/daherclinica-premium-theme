@@ -1,4 +1,9 @@
 <?php
+$clinica_opts = get_option('daher_clinica_options', []);
+$agendar_url = !empty($clinica_opts['saas_agendamento']) ? $clinica_opts['saas_agendamento'] : 'https://agendamento.daherclinica.com/agendamento';
+$agendar_label = !empty($clinica_opts['saas_agendamento_label']) ? $clinica_opts['saas_agendamento_label'] : 'Agendamento Online';
+?>
+<?php
 /**
  * Template Part: Corpo Clínico (Team Section)
  * 
@@ -114,9 +119,9 @@ $whatsapp_geral = preg_replace('/[^0-9]/', '', $whatsapp_options['whatsapp_numbe
                         </div>
                         
                         <div class="team-info-footer">
-                            <a href="<?php echo esc_url($whatsapp_link); ?>" class="btn btn-primary btn-sm btn-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Agendar consulta pelo WhatsApp">
-                                <?php _e('Agendar Consulta', 'daherclinica'); ?>
-                            </a>
+                            <a href="<?php echo esc_url(add_query_arg('medico', urlencode($nome), $agendar_url)); ?>" class="btn btn-primary btn-sm btn-agendar-header" aria-label="Agendar online">
+                                  <?php echo esc_html($agendar_label); ?>
+                              </a>
                         </div>
                     </div>
                 </div>
@@ -157,9 +162,9 @@ $whatsapp_geral = preg_replace('/[^0-9]/', '', $whatsapp_options['whatsapp_numbe
                         </div>
                         
                         <div class="team-info-footer">
-                            <a href="<?php echo esc_url($whatsapp_link); ?>" class="btn btn-primary btn-sm btn-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Agendar consulta pelo WhatsApp">
-                                <?php _e('Agendar Consulta', 'daherclinica'); ?>
-                            </a>
+                            <a href="<?php echo esc_url(add_query_arg('medico', urlencode(get_the_title()), $agendar_url)); ?>" class="btn btn-primary btn-sm btn-agendar-header" aria-label="Agendar online">
+                                  <?php echo esc_html($agendar_label); ?>
+                              </a>
                         </div>
                     </div>
                 </div>
@@ -180,9 +185,9 @@ $whatsapp_geral = preg_replace('/[^0-9]/', '', $whatsapp_options['whatsapp_numbe
                         <span class="team-specialty-badge"><?php _e('Cirurgião Vascular', 'daherclinica'); ?></span>
                         <div class="team-crm"><?php _e('CRM 52 61207-0', 'daherclinica'); ?></div>
                         <p class="team-bio"><?php _e('Especialista em tratamentos avançados de varizes e check-up vascular.', 'daherclinica'); ?></p>
-                        <a href="https://wa.me/<?php echo $whatsapp_geral; ?>" class="btn btn-primary btn-sm btn-whatsapp" target="_blank" aria-label="Agendar consulta pelo WhatsApp">
-                            <?php _e('Agendar Consulta', 'daherclinica'); ?>
-                        </a>
+                        <a href="<?php echo esc_url($agendar_url); ?>" class="btn btn-primary btn-sm btn-agendar-header" aria-label="Agendar online">
+                                  <?php echo esc_html($agendar_label); ?>
+                              </a>
                     </div>
                 </div>
                 <!-- ... outros médicos padrão podem vir aqui ... -->

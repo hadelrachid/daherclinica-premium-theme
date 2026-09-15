@@ -39,6 +39,11 @@ class DaherClinica_Customizer {
             'title'    => __('Informações da Clínica', 'daherclinica'),
             'priority' => 32,
         ]);
+        
+        $this->wp_customize->add_section('daher_carousel', [
+            'title'    => __('Carrossel de Planos', 'daherclinica'),
+            'priority' => 33,
+        ]);
     }
     
     private function add_settings() {
@@ -58,6 +63,22 @@ class DaherClinica_Customizer {
         
         $this->add_setting('clinic_hours', 'Segunda a Sexta: 09:00 - 18:00');
         $this->add_control('clinic_hours', __('Horário de Funcionamento', 'daherclinica'), 'daher_info');
+        
+        // Carrossel
+        $this->add_setting('show_insurance_carousel', true);
+        $this->wp_customize->add_control('show_insurance_carousel', [
+            'label'    => __('Exibir Carrossel de Planos', 'daherclinica'),
+            'section  ' => 'daher_carousel',
+            'type'     => 'checkbox',
+        ]);
+        
+        $this->add_setting('carousel_speed', '20');
+        $this->wp_customize->add_control('carousel_speed', [
+            'label'    => __('Velocidade do Carrossel (segundos)', 'daherclinica'),
+            'description' => 'Tempo para dar uma volta completa. Menor = Mais rápido.',
+            'section  ' => 'daher_carousel',
+            'type'     => 'number',
+        ]);
         
         // Redes Sociais
         $this->add_setting('instagram_url', 'https://www.instagram.com/daherclinica/');
