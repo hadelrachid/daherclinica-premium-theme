@@ -167,7 +167,7 @@
                 $agendar_url = !empty($saas_opts['saas_agendamento']) ? $saas_opts['saas_agendamento'] : 'https://agendamento.daherclinica.com/agendamento';
                 $agendar_label = !empty($saas_opts['saas_agendamento_label']) ? $saas_opts['saas_agendamento_label'] : 'Agendamento Online';
                 ?>
-                <a href="<?php echo esc_url($login_url); ?>" target="_blank" class="btn btn-outline" style="margin-left: 15px; padding: 8px 15px; font-size: 14px;">
+                <a href="<?php echo esc_url($login_url); ?>" target="_blank" class="btn btn-primary" style="margin-left: 15px; padding: 8px 15px; font-size: 14px; background-color: #1A365D; color: #fff; border-radius: 5px;">
                     <i class="fas fa-lock"></i> <?php _e('Área Restrita', 'daherclinica'); ?>
                 </a>
             </nav>
@@ -208,7 +208,7 @@
             ?>
             
             <div style="margin: 20px 0; text-align: center;">
-                <a href="<?php echo esc_url($login_url); ?>" target="_blank" class="btn btn-outline" style="width: 90%;">
+                <a href="<?php echo esc_url($login_url); ?>" target="_blank" class="btn btn-primary" style="width: 90%; background-color: #1A365D; color: #fff; border-radius: 5px;">
                     <i class="fas fa-lock"></i> <?php _e('Área Restrita', 'daherclinica'); ?>
                 </a>
             </div>
