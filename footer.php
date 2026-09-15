@@ -117,10 +117,9 @@
                             
                             <?php 
                             $clinica_opts = get_option('daher_clinica_options', []);
-                            if (!empty($clinica_opts['saas_area_restrita'])) : 
+                            $login_url = !empty($clinica_opts['saas_area_restrita']) ? $clinica_opts['saas_area_restrita'] : 'https://agendamento.daherclinica.com/login';
                             ?>
-                                <li><a href="<?php echo esc_url($clinica_opts['saas_area_restrita']); ?>" target="_blank" style="color: var(--primary); font-weight: bold;"><i class="fas fa-lock" style="margin-right: 5px;"></i><?php _e('Área Restrita', 'daherclinica'); ?></a></li>
-                            <?php endif; ?>
+                            <li><a href="<?php echo esc_url($login_url); ?>" target="_blank" style="color: var(--primary); font-weight: bold;"><i class="fas fa-lock" style="margin-right: 5px;"></i><?php _e('Área Restrita', 'daherclinica'); ?></a></li>
                         </ul>
                     </div>
                     
