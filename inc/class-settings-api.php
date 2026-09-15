@@ -1089,7 +1089,7 @@ class SettingsAPI {
     // ============================================
     
     private function register_saas_options() {
-        register_setting('daher_saas_group', 'daher_clinica_options', [$this, 'sanitize_clinica']);
+        register_setting('daher_saas_group', 'daher_saas_options', [$this, 'sanitize_saas']);
         
         add_settings_section(
             'daher_saas_section',
@@ -1132,6 +1132,11 @@ class SettingsAPI {
         $output['daher_hours'] = sanitize_text_field($input['daher_hours'] ?? '');
         $output['daher_phone'] = sanitize_text_field($input['daher_phone'] ?? '');
         $output['daher_email'] = sanitize_email($input['daher_email'] ?? '');
+        return $output;
+    }
+    
+    public function sanitize_saas($input) {
+        $output = [];
         $output['saas_area_restrita'] = esc_url_raw($input['saas_area_restrita'] ?? '');
         $output['saas_agendamento'] = esc_url_raw($input['saas_agendamento'] ?? '');
         $output['saas_agendamento_label'] = sanitize_text_field($input['saas_agendamento_label'] ?? '');

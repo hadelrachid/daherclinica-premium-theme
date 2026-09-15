@@ -162,10 +162,10 @@
                     'depth'          => 2,
                 ]);
                 
-                $clinica_opts = get_option('daher_clinica_options', []);
-                $login_url = !empty($clinica_opts['saas_area_restrita']) ? $clinica_opts['saas_area_restrita'] : 'https://agendamento.daherclinica.com/login';
-                $agendar_url = !empty($clinica_opts['saas_agendamento']) ? $clinica_opts['saas_agendamento'] : 'https://agendamento.daherclinica.com/agendamento';
-                        $agendar_label = !empty($clinica_opts['saas_agendamento_label']) ? $clinica_opts['saas_agendamento_label'] : 'Agendamento Online';
+                $saas_opts = get_option('daher_saas_options', []);
+                $login_url = !empty($saas_opts['saas_area_restrita']) ? $saas_opts['saas_area_restrita'] : 'https://agendamento.daherclinica.com/login';
+                $agendar_url = !empty($saas_opts['saas_agendamento']) ? $saas_opts['saas_agendamento'] : 'https://agendamento.daherclinica.com/agendamento';
+                $agendar_label = !empty($saas_opts['saas_agendamento_label']) ? $saas_opts['saas_agendamento_label'] : 'Agendamento Online';
                 ?>
                 <a href="<?php echo esc_url($login_url); ?>" target="_blank" class="btn btn-outline" style="margin-left: 15px; padding: 8px 15px; font-size: 14px;">
                     <i class="fas fa-lock"></i> <?php _e('Área Restrita', 'daherclinica'); ?>
